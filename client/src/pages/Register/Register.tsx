@@ -1,6 +1,7 @@
 import "./register.scss";
 import { Link } from "react-router-dom";
-const Register = () => {
+import { FC } from "react";
+const Register: FC = () => {
   return (
     <div className="register">
       <div className="card">
