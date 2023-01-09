@@ -1,5 +1,18 @@
 import "./leftbar.scss";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import Diversity3OutlinedIcon from "@mui/icons-material/Diversity3Outlined";
+import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
+import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
+import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
+import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
+import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlined";
+import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined";
+import CollectionsOutlinedIcon from "@mui/icons-material/CollectionsOutlined";
+import PersonalVideoOutlinedIcon from "@mui/icons-material/PersonalVideoOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
+import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
+import GolfCourseOutlinedIcon from "@mui/icons-material/GolfCourseOutlined";
 const Leftbar = () => {
   return (
     <div className="leftbar">
@@ -9,61 +22,62 @@ const Leftbar = () => {
           <span>John Doe</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <Diversity3OutlinedIcon />
           <span>Friends</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <Groups2OutlinedIcon />
           <span>Groups</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <StorefrontOutlinedIcon />
           <span>Marketplace</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <OndemandVideoOutlinedIcon />
           <span>Watch</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <TimerOutlinedIcon />
           <span>Memories </span>
         </div>
+        <hr />
         <div className="section-divider">
           <span>Your shortcuts</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <EventAvailableOutlinedIcon />
           <span>Events</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <SportsEsportsOutlinedIcon />
           <span>Gaming</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <CollectionsOutlinedIcon />
           <span>Gallery</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <PersonalVideoOutlinedIcon />
           <span>Videos</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <EmailOutlinedIcon />
           <span>Messages</span>
         </div>
         <div className="section-divider">
           <span>Other</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <LocalMallOutlinedIcon />
           <span>Fundraiser</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <AccountTreeOutlinedIcon />
           <span>Tutorials</span>
         </div>
         <div className="item">
-          <AccountCircleOutlinedIcon />
+          <GolfCourseOutlinedIcon />
           <span>Courses</span>
         </div>
       </div>

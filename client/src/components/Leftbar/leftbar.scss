@@ -6,7 +6,7 @@
     top: 0;
     background: white;
     display: flex;
-    width: 70%;
+    width: 200px;
     justify-content: space-between;
     flex-direction: column;
     border-right: 1px solid rgb(132, 135, 140);
@@ -19,7 +19,7 @@
     }
     .section-divider {
       margin: 20px 0px 15px 10px;
-      width: 80%;
+      width: 90%;
       border-bottom: 1px solid rgb(174, 175, 177);
       text-align: end;
       span {
