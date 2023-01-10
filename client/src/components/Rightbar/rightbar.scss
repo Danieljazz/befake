@@ -1,53 +1,60 @@
+@import "../../style.scss";
+
 .rightbar {
-  flex: 1;
-  .container {
-    top: 0;
-    position: sticky;
-    margin-top: 20px;
-    margin-right: 20px;
-    min-width: 400px;
-    .section {
-      min-height: 100px;
-      border: 1px solid #c3bbbb;
-      margin-bottom: 20px;
-      background-color: rgb(243, 241, 241);
-      padding: 10px 20px 10px 10px;
-      border-radius: 24px 21px;
-      box-shadow: 0px 0px 5px 1px grey;
-      & > span {
-        font-size: 20px;
-      }
-      .event {
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: relative;
-        button {
-          margin-left: 12px;
+  @include themify($themes) {
+    background: themed(background);
+    .container {
+      flex: 3;
+      top: 0;
+      position: sticky;
+      margin-top: 20px;
+      margin-right: 20px;
+      min-width: 400px;
+      background: themed(background);
+      color: themed(textColor);
+      .section {
+        min-height: 100px;
+        border: 1px solid themed("borderColor");
+        margin-bottom: 20px;
+        background-color: themed("background");
+        padding: 10px 20px 10px 10px;
+        border-radius: 24px 21px;
+        box-shadow: 0px 0px 5px 1px themed("borderColor");
+        & > span {
+          font-size: 20px;
         }
-        .user {
+        .event {
+          margin-top: 20px;
           display: flex;
           align-items: center;
-          gap: 1rem;
-        }
-        .active-users {
-          @extend .user;
-          &:after {
-            content: "";
-            width: 10px;
-            height: 10px;
-            background-color: rgb(15, 188, 15);
-            position: absolute;
-            left: 26px;
-            top: 0;
-            border-radius: 50%;
+          justify-content: space-between;
+          position: relative;
+          button {
+            margin-left: 12px;
+          }
+          .user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+          }
+          .active-users {
+            @extend .user;
+            &:after {
+              content: "";
+              width: 10px;
+              height: 10px;
+              background-color: rgb(15, 188, 15);
+              position: absolute;
+              left: 26px;
+              top: 0;
+              border-radius: 50%;
+            }
           }
         }
-      }
-      img {
-        height: 30px;
-        border-radius: 50%;
+        img {
+          height: 30px;
+          border-radius: 50%;
+        }
       }
     }
   }

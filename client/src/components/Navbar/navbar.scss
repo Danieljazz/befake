@@ -1,32 +1,38 @@
+@import "../../style.scss";
+
 .navbar {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  .left {
-    flex: 1;
+  @include themify($themes) {
+    background: themed("background");
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
-  }
-  .middle {
-    flex: 2;
-    text-align: center;
-    span {
-      font-size: 40px;
-    }
-  }
-  .right {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    .user {
-      gap: 1rem;
+    justify-content: center;
+    height: 40px;
+    color: themed("textColor");
+    .left {
+      flex: 1;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: space-around;
+    }
+    .middle {
+      flex: 2;
+      text-align: center;
+      span {
+        font-size: 40px;
+      }
+    }
+    .right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      .user {
+        gap: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
     }
   }
 }

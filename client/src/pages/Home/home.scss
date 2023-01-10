@@ -1,4 +1,9 @@
+@import "../../style.scss";
+
 .home {
-  flex: 2;
-  height: 2000px;
+  @include themify($themes) {
+    height: 2000px;
+    background: themed(background);
+    color: themed(textColor);
+  }
 }

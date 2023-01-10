@@ -5,7 +5,7 @@ import React, {
   useState,
   FC,
 } from "react";
-import reactLogo from "./assets/react.svg";
+import "./style.scss";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Navbar from "./components/Navbar/Navbar";
@@ -25,14 +25,16 @@ const App = () => {
   const isUser: boolean = true;
   const Layout: FC = () => {
     return (
-      <>
+      <div className="theme-dark">
         <Navbar />
         <div style={{ display: "flex" }}>
           <Leftbar />
-          <Outlet />
+          <div style={{ flex: 6 }}>
+            <Outlet />
+          </div>
           <Rightbar />
         </div>
-      </>
+      </div>
     );
   };
 
