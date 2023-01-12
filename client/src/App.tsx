@@ -3,9 +3,11 @@ import React, {
   PropsWithChildren,
   ReactComponentElement,
   useState,
+  useContext,
   FC,
 } from "react";
 import "./style.scss";
+import GolfCourseOutlinedIcon from "@mui/icons-material/GolfCourseOutlined";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Navbar from "./components/Navbar/Navbar";
@@ -21,11 +23,14 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
+import { DarkModeContext } from "./context/DarkModeContext";
+import { AuthContext } from "./context/authContex";
 const App = () => {
-  const isUser: boolean = true;
+  const { user } = useContext(AuthContext);
+  const { darkMode } = useContext(DarkModeContext);
   const Layout: FC = () => {
     return (
-      <div className="theme-dark">
+      <div className={`theme-${darkMode ? "dark" : "light"}`}>
         <Navbar />
         <div style={{ display: "flex" }}>
           <Leftbar />
@@ -43,7 +48,7 @@ const App = () => {
   };
 
   const ProtectedRoute = ({ children }: ProtectedRouteType) => {
-    if (!isUser) {
+    if (!user.id) {
       return <Navigate to="/login" />;
     }
     return children;

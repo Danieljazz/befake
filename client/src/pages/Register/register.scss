@@ -1,43 +1,41 @@
 @import "../Login/login.scss";
-@import "../../style.scss";
 .register {
   @extend .login;
-  @include themify($themes) {
-    .card {
-      .left {
-        background-image: none;
-        input {
-          min-height: 30px;
-          min-width: 300px;
-          border: none;
-          border-bottom: 1px solid themed("borderColor");
-          font-size: 20px;
-          &:focus {
-            outline: none;
-            border-bottom: 1px solid $focused-item;
-          }
-        }
-        button {
-          width: 80%;
-        }
-        h1 {
-          font-size: 50px;
-          font-weight: 500;
+  .card {
+    .left {
+      background-image: none;
+      border-right: 5px solid $border-color;
+      input {
+        min-height: 30px;
+        min-width: 300px;
+        border: none;
+        border-bottom: 1px solid $border-color;
+        font-size: 20px;
+        &:focus {
+          outline: none;
+          border-bottom: 1px solid $focused-item;
         }
       }
-      .right {
-        border-radius: 0;
-        h1 {
-          text-align: center;
-        }
-        p {
-          margin: 20px;
-          text-align: center;
-        }
-        button {
-          margin-bottom: 25px;
-          width: 100%;
-        }
+      button {
+        width: 80%;
+      }
+      h1 {
+        font-size: 50px;
+        font-weight: 500;
+      }
+    }
+    .right {
+      border-radius: 0;
+      h1 {
+        text-align: center;
+      }
+      p {
+        margin: 20px;
+        text-align: center;
+      }
+      button {
+        margin-bottom: 25px;
+        width: 100%;
       }
     }
   }

@@ -1,6 +1,8 @@
-import { FC } from "react";
+import { AuthContext } from "../../context/authContex";
+import { FC, useContext } from "react";
 import "./rightbar.scss";
 const Rightbar: FC = () => {
+  const { user } = useContext(AuthContext);
   return (
     <div className="rightbar">
       <div className="container">
@@ -63,11 +65,8 @@ const Rightbar: FC = () => {
           <span>Latest activities</span>
           <div className="event">
             <div className="user">
-              <img
-                src="https://images.pexels.com/photos/3394658/pexels-photo-3394658.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt=""
-              />
-              <span>Jane Doe</span>
+              <img src={user.profilePhoto} alt="" />
+              <span>{user.name}</span>
               <span>posted photo</span>
             </div>
             <span style={{ fontWeight: "100", color: "grey" }}> 1 min ago</span>

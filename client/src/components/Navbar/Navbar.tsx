@@ -5,12 +5,15 @@ import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import { useContext } from "react";
+import { DarkModeContext } from "../../context/DarkModeContext";
 const Navbar = () => {
+  const { toggle } = useContext(DarkModeContext);
   return (
     <div className="navbar">
       <div className="left">
         <HomeOutlinedIcon fontSize="medium" />
-        <DarkModeOutlinedIcon fontSize="medium" />
+        <DarkModeOutlinedIcon fontSize="medium" onClick={toggle} />
         <WidgetsOutlinedIcon fontSize="medium" />
       </div>
       <div className="middle">
