@@ -5,5 +5,8 @@
     height: 2000px;
     background: themed(background);
     color: themed(textColor);
+    padding: 30px 50px;
+    display: flex;
+    justify-content: center;
   }
 }

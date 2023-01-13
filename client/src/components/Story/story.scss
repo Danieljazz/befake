@@ -1,0 +1,12 @@
+.story {
+  width: 140px;
+  height: 100%;
+  position: relative;
+  border-radius: 12px 12px;
+  span {
+    color: aliceblue;
+    position: absolute;
+    bottom: 10px;
+    left: 5px;
+  }
+}
