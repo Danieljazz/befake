@@ -7,6 +7,8 @@
     color: themed(textColor);
     padding: 30px 50px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
   }
 }

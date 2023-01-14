@@ -1,0 +1,41 @@
+@import "../../style.scss";
+.comments-section {
+  @include themify($themes) {
+    margin-top: 20px;
+    border-top: 1px solid themed("borderColor");
+    padding-top: 20px;
+    .new-comment {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        img {
+          height: 50px;
+          border-radius: 50%;
+        }
+      }
+      input {
+        font-size: 20px;
+        border: none;
+        border-radius: 6px 6px;
+        width: 85%;
+        height: 40px;
+        &:focus {
+          outline: none;
+        }
+      }
+      button {
+        background-color: rgb(89, 100, 195);
+        border: none;
+        font-size: 20px;
+        border-radius: 6px 6px;
+        width: 100px;
+        color: aliceblue;
+        height: 40px;
+      }
+    }
+  }
+}

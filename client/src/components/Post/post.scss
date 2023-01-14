@@ -1,0 +1,67 @@
+@import "../../style.scss";
+.post {
+  @include themify($themes) {
+    width: 95%;
+    text-align: left;
+    background-color: themed("postBackground");
+    border-radius: 30px 30px;
+    box-shadow: 12px 12px themed("borderColor2");
+    padding: 20px 20px 20px 20px;
+    .post-top {
+      display: flex;
+      width: 98%;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        img {
+          height: 50px;
+          border-radius: 50%;
+        }
+        .details {
+          display: flex;
+          flex-direction: column;
+          .date {
+            color: rgb(132, 135, 140);
+          }
+        }
+      }
+    }
+    .post-content {
+      margin-bottom: 40px;
+      img {
+        margin-top: 20px;
+        width: 100%;
+        height: 600px;
+        object-fit: contain;
+      }
+    }
+    .action-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      button {
+        display: flex;
+        align-items: center;
+        background-color: themed("postBackground");
+        border: none;
+        width: 100px;
+        gap: 1rem;
+        cursor: pointer;
+        color: themed("textColor");
+        &.like:hover {
+          color: rgb(64, 55, 197);
+        }
+        &.comments:hover {
+          color: rgb(55, 197, 67);
+        }
+        &.share:hover {
+          color: rgb(197, 55, 55);
+        }
+      }
+    }
+  }
+}
