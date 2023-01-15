@@ -2,7 +2,7 @@
 
 .rightbar {
   @include themify($themes) {
-    background: themed(background);
+    background: themed("background");
     .container {
       flex: 3;
       top: 0;
@@ -10,7 +10,7 @@
       margin-top: 20px;
       margin-right: 20px;
       min-width: 400px;
-      background: themed(background);
+      background: themed("background");
       color: themed(textColor);
       .section {
         min-height: 100px;

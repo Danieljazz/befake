@@ -7,7 +7,7 @@ type StoryProps = {
 
 export const Story = ({ name, photo }: StoryProps) => {
   return (
-    <section
+    <div
       className="story"
       style={{
         backgroundImage: `url(${photo})`,
@@ -16,6 +16,6 @@ export const Story = ({ name, photo }: StoryProps) => {
       }}
     >
       <span>{name}</span>
-    </section>
+    </div>
   );
 };

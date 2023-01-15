@@ -2,8 +2,8 @@
 
 .home {
   @include themify($themes) {
-    height: 2000px;
-    background: themed(background);
+    min-height: 100vh;
+    background: themed("background");
     color: themed(textColor);
     padding: 30px 50px;
     display: flex;

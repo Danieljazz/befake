@@ -1,7 +1,7 @@
 import "./commentsSection.scss";
 import { AuthContext } from "../../context/authContex";
 import { useContext } from "react";
-
+import { Comment } from "../../components/Comment/Comment";
 export const CommentsSection = () => {
   const { user } = useContext(AuthContext);
   return (
@@ -13,6 +13,7 @@ export const CommentsSection = () => {
         <input type="text" placeholder="Type comment" />
         <button>Send</button>
       </div>
+      <Comment />
     </div>
   );
 };
