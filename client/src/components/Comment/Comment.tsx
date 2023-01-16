@@ -1,26 +1,32 @@
 import "./comment.scss";
 
-export const Comment = () => {
+type CommentProp = {
+  comment: {
+    user: {
+      id: string;
+      profilePhoto: string;
+      name: string;
+    };
+    commentContent: string;
+    date: string;
+  };
+};
+
+export const Comment = ({ comment }: CommentProp) => {
   return (
     <div className="comment">
       <div className="comment-content">
         <div className="user">
-          <img
-            src="https://images.pexels.com/photos/3394658/pexels-photo-3394658.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            alt=""
-          />
+          <img src={`${comment.user.profilePhoto}`} alt="" />
         </div>
         <div>
           <b>
-            <span>Jane Doe</span>
+            <span>{comment.user.name}</span>
           </b>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas omnis
-            molestiae tenetur?
-          </p>
+          <p>{comment.commentContent}</p>
         </div>
       </div>
-      <span>12.12.12</span>
+      <span>{comment.date}</span>
     </div>
   );
 };

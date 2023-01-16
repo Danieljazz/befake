@@ -11,11 +11,17 @@ type PostType = {
     postContent: string;
     date: string;
     postPhoto?: string;
-    comments?: {
-      user: string;
-      commentContent: string;
-      date: string;
-    };
+    comments?: [
+      {
+        user: {
+          id: string;
+          profilePhoto: string;
+          name: string;
+        };
+        commentContent: string;
+        date: string;
+      }
+    ];
   };
 };
 
@@ -54,7 +60,7 @@ export const Post = ({ post }: PostType) => {
           <ShareOutlinedIcon /> Share
         </button>
       </div>
-      {openComments && <CommentsSection />}
+      {openComments && <CommentsSection comments={post.comments} />}
     </div>
   );
 };
