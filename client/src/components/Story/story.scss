@@ -1,8 +1,12 @@
+@import "../../style.scss";
 .story {
   width: 140px;
-  height: 200px;
+  height: 100%;
   position: relative;
   border-radius: 12px 12px;
+  @include mobile {
+    width: 90px;
+  }
   span {
     color: aliceblue;
     position: absolute;

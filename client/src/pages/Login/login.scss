@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap");
+@import "../../style.scss";
 $background: #f7ede8;
 $left-card: rgb(235, 195, 14);
 $focused-item: #38dbff;
@@ -23,6 +24,11 @@ $border-color: #000;
     border-radius: 30px 30px;
     min-height: 600px;
     box-shadow: 12px 12px 0px 0px $border-color;
+    @include mobile {
+      flex-direction: column-reverse;
+      border: none;
+      box-shadow: none;
+    }
     .left {
       flex: 1;
       display: flex;
@@ -68,6 +74,9 @@ $border-color: #000;
       align-items: center;
       justify-content: space-around;
       border-radius: 0px 0px 0px 25px;
+      @include mobile {
+        margin-bottom: 30px;
+      }
       h1 {
         font-size: 50px;
         font-weight: 400;
@@ -97,6 +106,9 @@ $border-color: #000;
         transition: all 0.1s ease-in-out;
         &:active {
           box-shadow: none;
+        }
+        @include mobile {
+          margin-top: 30px;
         }
       }
     }

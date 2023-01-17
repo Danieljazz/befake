@@ -9,11 +9,22 @@
     justify-content: center;
     height: 40px;
     color: themed("textColor");
+    @include mobile {
+      justify-content: space-around;
+    }
     .left {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: space-around;
+      @include mobile {
+        justify-content: center;
+        & > svg:first-child,
+        & > svg:last-child {
+          display: none;
+        }
+        margin-left: 20px;
+      }
     }
     .middle {
       flex: 2;
@@ -22,17 +33,38 @@
         font-size: 40px;
       }
       padding-right: 150px;
+      @include mobile {
+        padding-right: 0px;
+      }
     }
     .right {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: space-around;
+      @include mobile {
+        flex: 1;
+        gap: 2rem;
+        margin-right: 12px;
+        & > span {
+          display: none;
+        }
+        & > svg:first-child {
+          display: none;
+        }
+      }
       .user {
         gap: 1rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        @include mobile {
+          flex: none;
+          gap: 200px;
+          & > span {
+            display: none;
+          }
+        }
       }
     }
   }

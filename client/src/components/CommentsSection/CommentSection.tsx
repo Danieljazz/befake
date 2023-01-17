@@ -2,7 +2,7 @@ import "./commentsSection.scss";
 import { AuthContext } from "../../context/authContex";
 import { useContext } from "react";
 import { Comment } from "../../components/Comment/Comment";
-
+import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 type CommentsProps = {
   comments?: [
     {

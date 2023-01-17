@@ -4,6 +4,9 @@
   @include themify($themes) {
     flex: 1;
     background: themed(background);
+    @include mobile {
+      display: none;
+    }
     .container {
       margin-top: 20px;
       position: sticky;

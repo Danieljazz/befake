@@ -5,6 +5,9 @@
     .left {
       background-image: none;
       border-right: 5px solid $border-color;
+      @include mobile {
+        border-right: none;
+      }
       input {
         min-height: 30px;
         min-width: 300px;
@@ -18,10 +21,16 @@
       }
       button {
         width: 80%;
+        @include mobile {
+          margin-top: 20px;
+        }
       }
       h1 {
         font-size: 50px;
         font-weight: 500;
+      }
+      @include mobile {
+        border-top: 3px solid #000;
       }
     }
     .right {

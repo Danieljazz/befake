@@ -3,6 +3,9 @@
 .rightbar {
   @include themify($themes) {
     background: themed("background");
+    @include mobile {
+      display: none;
+    }
     .container {
       flex: 3;
       top: 0;
