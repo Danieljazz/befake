@@ -2,8 +2,5 @@ import express from "express";
 
 const router = express.Router();
 
-router.get("/test", (req, res) => {
-  res.send("HI AJ");
-});
-
+router.get("/user/:id");
 export default router;
