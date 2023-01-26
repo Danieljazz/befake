@@ -113,7 +113,7 @@ const Register: FC = () => {
             labore illo?
           </p>
           <span>Have account?</span>
-          <Link to="/Login">
+          <Link to="/login">
             <button>Login</button>
           </Link>
         </div>

@@ -5,6 +5,7 @@ import React, {
   useState,
   useContext,
   FC,
+  useEffect,
 } from "react";
 import "./style.scss";
 import GolfCourseOutlinedIcon from "@mui/icons-material/GolfCourseOutlined";
@@ -18,15 +19,17 @@ import Profile from "./pages/Profile/Profile";
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  Link,
   Outlet,
   Navigate,
 } from "react-router-dom";
 import { DarkModeContext } from "./context/DarkModeContext";
 import { AuthContext } from "./context/authContex";
+type ProtectedRouteType = {
+  children: JSX.Element;
+};
+
 const App = () => {
-  const user = false;
+  const { user } = useContext(AuthContext);
   const { darkMode } = useContext(DarkModeContext);
   const Layout: FC = () => {
     return (
@@ -43,12 +46,8 @@ const App = () => {
     );
   };
 
-  type ProtectedRouteType = {
-    children: JSX.Element;
-  };
-
   const ProtectedRoute = ({ children }: ProtectedRouteType) => {
-    if (!user.id) {
+    if (!user) {
       return <Navigate to="/login" />;
     }
     return children;

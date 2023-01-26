@@ -1,9 +1,39 @@
 import "./login.scss";
-import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContex";
+import { LoginType } from "../../context/authContex";
 const Login = () => {
   const { login } = useContext(AuthContext);
+
+  const [inputs, setInputs] = useState({
+    username: "",
+    password: "",
+  } as LoginType);
+
+  const [err, setErr] = useState<string>("");
+
+  const navigate = useNavigate();
+  const inputChange = (e: React.FormEvent) => {
+    const target = e.target as HTMLInputElement;
+    setInputs((prev) => ({
+      ...prev,
+      [target.name]: target.value,
+    }));
+  };
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await login(inputs);
+
+      const interval = setInterval(() => {
+        navigate("/", { replace: true });
+      }, 3000);
+      return () => clearInterval(interval);
+    } catch (err) {
+      setErr(err.response.data);
+    }
+  };
   return (
     <div className="login">
       <div className="card">
@@ -21,9 +51,20 @@ const Login = () => {
         </div>
         <div className="right">
           <h1>Login</h1>
-          <input type="text" placeholder="Username" />
-          <input type="password" placeholder="Password" />
-          <button onClick={login}>Login</button>
+          <input
+            name="username"
+            type="text"
+            placeholder="Username"
+            onChange={inputChange}
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            onChange={inputChange}
+          />
+          <button onClick={handleLogin}>Login</button>
+          {err && <span style={{ color: "red" }}>{err}</span>}
         </div>
       </div>
     </div>
