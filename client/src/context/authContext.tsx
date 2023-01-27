@@ -27,22 +27,20 @@ export const AuthContextProvider: FC<AuthContextProviderType> = ({
   const [user, setUser] = useState<UserType>(
     JSON.parse(localStorage.getItem("user")!) || null
   );
-  const login = async (loginData: LoginType) => {
+  const login = async (inputs) => {
     const res = await axios.post(
       "http://localhost:8080/api/v1/auth/login",
-      loginData,
-      {
-        withCredentials: true,
-      }
+      inputs
     );
-    console.log(res.data);
     setUser(res.data);
   };
+
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
+
   return (
-    <AuthContext.Provider value={{ login, user }}>
+    <AuthContext.Provider value={{ user, login }}>
       {children}
     </AuthContext.Provider>
   );

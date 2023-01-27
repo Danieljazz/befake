@@ -1,8 +1,8 @@
 import "./login.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
-import { AuthContext } from "../../context/authContex";
-import { LoginType } from "../../context/authContex";
+import { AuthContext } from "../../context/authContext";
+import { LoginType } from "../../context/authContext";
 const Login = () => {
   const { login } = useContext(AuthContext);
 
@@ -25,11 +25,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(inputs);
-
-      const interval = setInterval(() => {
-        navigate("/", { replace: true });
-      }, 3000);
-      return () => clearInterval(interval);
+      navigate("/");
     } catch (err) {
       setErr(err.response.data);
     }

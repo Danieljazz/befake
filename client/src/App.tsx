@@ -1,12 +1,4 @@
-import React, {
-  Component,
-  PropsWithChildren,
-  ReactComponentElement,
-  useState,
-  useContext,
-  FC,
-  useEffect,
-} from "react";
+import React, { useContext, FC } from "react";
 import "./style.scss";
 import GolfCourseOutlinedIcon from "@mui/icons-material/GolfCourseOutlined";
 import Login from "./pages/Login/Login";
@@ -23,7 +15,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { DarkModeContext } from "./context/DarkModeContext";
-import { AuthContext } from "./context/authContex";
+import { AuthContext } from "./context/authContext";
 type ProtectedRouteType = {
   children: JSX.Element;
 };
@@ -50,6 +42,7 @@ const App = () => {
     if (!user) {
       return <Navigate to="/login" />;
     }
+
     return children;
   };
 
@@ -62,14 +55,31 @@ const App = () => {
         </ProtectedRoute>
       ),
       children: [
-        { path: "/", element: <Home /> },
-        { path: "/profile/:id", element: <Profile /> },
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/profile/:id",
+          element: <Profile />,
+        },
       ],
     },
-    { path: "/login", element: <Login /> },
-    { path: "/register", element: <Register /> },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
+    },
   ]);
-  return <RouterProvider router={router} />;
+
+  return (
+    <div>
+      <RouterProvider router={router} />
+    </div>
+  );
 };
 
 export default App;

@@ -1,4 +1,4 @@
-import { AuthContext } from "../../context/authContex";
+import { AuthContext } from "../../context/authContext";
 import { FC, useContext } from "react";
 import "./rightbar.scss";
 const Rightbar: FC = () => {
