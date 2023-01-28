@@ -3,6 +3,7 @@ import axios from "axios";
 type UserType = {
   id: string;
   name: string;
+  surname: string;
   profilePhoto: string;
 };
 
@@ -30,7 +31,8 @@ export const AuthContextProvider: FC<AuthContextProviderType> = ({
   const login = async (inputs) => {
     const res = await axios.post(
       "http://localhost:8080/api/v1/auth/login",
-      inputs
+      inputs,
+      { withCredentials: true }
     );
     setUser(res.data);
   };

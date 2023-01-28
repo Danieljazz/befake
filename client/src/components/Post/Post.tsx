@@ -5,11 +5,13 @@ import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { useState } from "react";
 import { CommentsSection } from "../../components/CommentsSection/CommentSection";
-type PostType = {
+export type PostType = {
   post: {
-    user: string;
+    id: string;
+    name: string;
+    surname: string;
     postContent: string;
-    date: string;
+    createdAt: string;
     postPhoto?: string;
     comments?: [
       {
@@ -36,8 +38,8 @@ export const Post = ({ post }: PostType) => {
             alt=""
           />
           <div className="details">
-            <span className="name">Jane Doe</span>
-            <span className="date">{post.date}</span>
+            <span className="name">{`${post.name} ${post.surname}`}</span>
+            <span className="date">{post.createdAt}</span>
           </div>
         </div>
         <MoreHorizOutlinedIcon />

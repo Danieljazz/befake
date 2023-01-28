@@ -1,5 +1,58 @@
 @import "../../style.scss";
 .posts {
+  .new-post {
+    @include themify($themes) {
+      width: 95%;
+      text-align: left;
+      background-color: themed("postBackground");
+      border-radius: 30px 30px;
+      box-shadow: 12px 12px themed("borderColor2");
+      padding: 20px 20px 20px 20px;
+      margin-bottom: 80px;
+      color: themed("textColor");
+      @include mobile {
+        margin-bottom: 30px;
+        box-shadow: none;
+      }
+      .post-top {
+        display: flex;
+        width: 98%;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 1rem;
+        padding-bottom: 20px;
+        border-bottom: 2px solid rgba(148, 145, 145, 0.648);
+        .user {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          img {
+            height: 50px;
+            border-radius: 50%;
+          }
+        }
+        input {
+          border: none;
+          outline: none;
+          width: 100%;
+          font-size: 20px;
+        }
+      }
+      .action-section {
+        text-align: right;
+        button {
+          font-size: 16px;
+          color: aliceblue;
+          background-color: rgba(62, 68, 151, 0.69);
+          border: none;
+          padding: 8px 15px;
+          border-radius: 15px 15px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
   margin-top: 100px;
   width: 100%;
   display: flex;

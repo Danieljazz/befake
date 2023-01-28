@@ -16,25 +16,28 @@ import {
 } from "react-router-dom";
 import { DarkModeContext } from "./context/DarkModeContext";
 import { AuthContext } from "./context/authContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 type ProtectedRouteType = {
   children: JSX.Element;
 };
-
+const queryClient = new QueryClient();
 const App = () => {
   const { user } = useContext(AuthContext);
   const { darkMode } = useContext(DarkModeContext);
   const Layout: FC = () => {
     return (
-      <div className={`theme-${darkMode ? "dark" : "light"}`}>
-        <Navbar />
-        <div style={{ display: "flex" }}>
-          <Leftbar />
-          <div style={{ flex: 6, overflow: "hidden" }}>
-            <Outlet />
+      <QueryClientProvider client={queryClient}>
+        <div className={`theme-${darkMode ? "dark" : "light"}`}>
+          <Navbar />
+          <div style={{ display: "flex" }}>
+            <Leftbar />
+            <div style={{ flex: 6, overflow: "hidden" }}>
+              <Outlet />
+            </div>
+            <Rightbar />
           </div>
-          <Rightbar />
         </div>
-      </div>
+      </QueryClientProvider>
     );
   };
 

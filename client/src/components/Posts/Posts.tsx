@@ -1,34 +1,57 @@
 import "./posts.scss";
 import { Post } from "../Post/Post";
+import { useQuery } from "@tanstack/react-query";
+import { makeRequest } from "../../axiosRequest";
+import { PostType } from "../Post/Post";
+import { FormEvent, useContext, useState } from "react";
+import { AuthContext } from "../../context/authContext";
 
 export const Posts = () => {
-  const posts = [
-    {
-      user: "Jane Doe",
-      postContent:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere distinctio perspiciatis sunt accusamus nemo, omnis est cum fugit quo tempore qui illum. Minus, alias! Ab ut, temporibus quam cumque veniam sequi odit. Quis natus possimus optio, et quod ullam earum eveniet sequi aliquam ut harum perferendis dolorem, deserunt in voluptatibus delectus laboriosam? Ratione temporibus dolore provident laboriosam a dolorem? Repellendus assumenda et suscipit, quos quam modi dolorem esse ratione id nam possimus! Saepe fuga nostrum illo possimus officiis! Quia voluptate repudiandae accusantium cum tempora ea dolores necessitatibus, consequuntur, adipisci pariatur inventore quisquam maxime in perferendis aliquid molestias dolore asperiores nostrum?",
-      date: "20.12.2023",
-      postPhoto:
-        "https://images.pexels.com/photos/12735802/pexels-photo-12735802.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-    {
-      user: "John Doe",
-      postContent:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere distinctio perspiciatis sunt accusamus nemo, omnis est cum fugit quo tempore qui illum. Minus, alias! Ab ut, temporibus quam cumque veniam sequi odit. Quis natus possimus optio, et quod ullam earum eveniet sequi aliquam ut harum perferendis dolorem, deserunt in voluptatibus delectus laboriosam? Ratione temporibus dolore provident laboriosam a dolorem? Repellendus assumenda et suscipit, quos quam modi dolorem esse ratione id nam possimus! Saepe fuga nostrum illo possimus officiis! Quia voluptate repudiandae accusantium cum tempora ea dolores necessitatibus, consequuntur, adipisci pariatur inventore quisquam maxime in perferendis aliquid molestias dolore asperiores nostrum?",
-      date: "13.12.2023",
-    },
-    {
-      user: "Jane Doe",
-      postContent:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere distinctio perspiciatis sunt accusamus nemo, omnis est cum fugit quo tempore qui illum. Minus, alias! Ab ut, temporibus quam cumque veniam sequi odit. Quis natus possimus optio, et quod ullam earum eveniet sequi aliquam ut harum perferendis dolorem, deserunt in voluptatibus delectus laboriosam? Ratione temporibus dolore provident laboriosam a dolorem? Repellendus assumenda et suscipit, quos quam modi dolorem esse ratione id nam possimus! Saepe fuga nostrum illo possimus officiis! Quia voluptate repudiandae accusantium cum tempora ea dolores necessitatibus, consequuntur, adipisci pariatur inventore quisquam maxime in perferendis aliquid molestias dolore asperiores nostrum?",
-      date: "2.12.2023",
-    },
-  ];
+  const { user } = useContext(AuthContext);
+  const [desc, setDesc] = useState("");
+  const [photo, setPhoto] = useState(null);
+  const [createError, setCreateError] = useState(null);
+  const { isLoading, error, data } = useQuery(["posts"], () =>
+    makeRequest.get<PostType["post"][]>("/posts").then((res) => {
+      return res.data;
+    })
+  );
+  //console.log(data); // TODO: Remove
+  const postChange = (e: FormEvent) => {
+    const target = e.target as HTMLInputElement;
+    setDesc(target.value);
+  };
+  const createPost = () => {
+    makeRequest
+      .post("/posts", { postContent: desc, postPhoto: photo })
+      .then((res) => setCreateError(null))
+      .catch((err) => setCreateError(err));
+  };
   return (
     <div className="posts">
-      {posts.map((item) => (
-        <Post post={item} />
-      ))}
+      <div className="new-post">
+        <section className="post-top">
+          <div className="user">
+            <img src={user.profilePhoto} alt="" />
+          </div>
+          <input type="text" placeholder="Type smth" onChange={postChange} />
+        </section>
+        <div className="action-section">
+          <button className="share" onClick={createPost}>
+            Share
+          </button>
+          {createError && <div style={{ color: "red" }}>Smth went wrong..</div>}
+        </div>
+      </div>
+      {error ? (
+        "Something went wrong"
+      ) : isLoading ? (
+        "Loading"
+      ) : data ? (
+        data.map((item: PostType["post"]) => <Post post={item} key={item.id} />)
+      ) : (
+        <div>Nothing is here</div>
+      )}
     </div>
   );
 };
