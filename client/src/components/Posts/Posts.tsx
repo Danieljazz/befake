@@ -1,6 +1,6 @@
 import "./posts.scss";
 import { Post } from "../Post/Post";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axiosRequest";
 import { PostType } from "../Post/Post";
 import { FormEvent, useContext, useState } from "react";
@@ -11,22 +11,42 @@ export const Posts = () => {
   const [desc, setDesc] = useState("");
   const [photo, setPhoto] = useState(null);
   const [createError, setCreateError] = useState(null);
+  const queryClient = useQueryClient();
   const { isLoading, error, data } = useQuery(["posts"], () =>
     makeRequest.get<PostType["post"][]>("/posts").then((res) => {
       return res.data;
     })
   );
-  //console.log(data); // TODO: Remove
   const postChange = (e: FormEvent) => {
     const target = e.target as HTMLInputElement;
     setDesc(target.value);
   };
-  const createPost = () => {
-    makeRequest
-      .post("/posts", { postContent: desc, postPhoto: photo })
-      .then((res) => setCreateError(null))
-      .catch((err) => setCreateError(err));
+
+  const postMutation = useMutation(
+    (newPost) => {
+      return makeRequest.post("/posts", newPost);
+    },
+    {
+      onError: (err) => setCreateError(err),
+      onSuccess: () => {
+        setDesc("");
+        setCreateError(null);
+        return queryClient.invalidateQueries(["posts"]);
+      },
+    }
+  );
+
+  const createPost = (e) => {
+    e.preventDefault();
+    postMutation.mutate({ postContent: desc, postPhoto: photo });
   };
+
+  // const createPost = () => {
+  //   makeRequest
+  //     .post("/posts", { postContent: desc, postPhoto: photo })
+  //     .then((res) => setCreateError(null))
+  //     .catch((err) => setCreateError(err));
+  // };
   return (
     <div className="posts">
       <div className="new-post">
@@ -34,7 +54,13 @@ export const Posts = () => {
           <div className="user">
             <img src={user.profilePhoto} alt="" />
           </div>
-          <input type="text" placeholder="Type smth" onChange={postChange} />
+          <input
+            type="text"
+            placeholder={`What's on your mind ${user.name}`}
+            name="status"
+            onChange={postChange}
+            value={desc}
+          />
         </section>
         <div className="action-section">
           <button className="share" onClick={createPost}>

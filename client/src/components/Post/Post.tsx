@@ -30,7 +30,7 @@ export type PostType = {
 export const Post = ({ post }: PostType) => {
   const [openComments, setOpenComments] = useState<boolean>();
   return (
-    <div className="post">
+    <div className="post" onClick={(e) => console.log(e)}>
       <section className="post-top">
         <div className="user">
           <img
