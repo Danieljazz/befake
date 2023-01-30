@@ -5,6 +5,8 @@ import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { useState } from "react";
 import { CommentsSection } from "../../components/CommentsSection/CommentSection";
+import { makeRequest } from "../../axiosRequest";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 export type PostType = {
   post: {
     id: string;
@@ -29,8 +31,12 @@ export type PostType = {
 
 export const Post = ({ post }: PostType) => {
   const [openComments, setOpenComments] = useState<boolean>();
+  const changeCommentsView = () => {
+    setOpenComments(!openComments);
+  };
+
   return (
-    <div className="post" onClick={(e) => console.log(e)}>
+    <div className="post" key={post.id}>
       <section className="post-top">
         <div className="user">
           <img
@@ -52,17 +58,14 @@ export const Post = ({ post }: PostType) => {
         <button className="like" style={{}}>
           <ThumbUpOutlinedIcon /> Like
         </button>
-        <button
-          className="comments"
-          onClick={() => setOpenComments(!openComments)}
-        >
+        <button className="comments" onClick={changeCommentsView}>
           <ModeCommentOutlinedIcon /> Comments
         </button>
         <button className="share">
           <ShareOutlinedIcon /> Share
         </button>
       </div>
-      {openComments && <CommentsSection comments={post.comments} />}
+      {openComments && <CommentsSection postId={post.id} />}
     </div>
   );
 };

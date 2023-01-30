@@ -3,12 +3,14 @@ import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 import { Comment } from "../../components/Comment/Comment";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
+import { makeRequest } from "../../axiosRequest";
+import { useQuery } from "@tanstack/react-query";
 type CommentsProps = {
   comments?: [
     {
       user: {
         id: string;
-        profilePhoto: string;
+        profilePhoto?: string;
         name: string;
       };
       commentContent: string;
@@ -17,32 +19,13 @@ type CommentsProps = {
   ];
 };
 
-export const CommentsSection = ({ comments }: CommentsProps) => {
+export const CommentsSection = ({ postId }: string) => {
   const { user } = useContext(AuthContext);
-  const comments2 = [
-    {
-      user: {
-        id: "asdsasadasdasdsaadsad",
-        profilePhoto:
-          "https://images.pexels.com/photos/10182191/pexels-photo-10182191.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        name: "Gabriela Nineta",
-      },
-      commentContent:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ex eius quia animi.",
-      date: "12.12.12",
-    },
-    {
-      user: {
-        id: "asdsasadasdasdsaadsad",
-        profilePhoto:
-          "https://images.pexels.com/photos/2269872/pexels-photo-2269872.jpeg?auto=compress&cs=tinysrgb&w=1600",
-        name: "Gabriel Rados",
-      },
-      commentContent:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ex eius quia animi.",
-      date: "10.12.12",
-    },
-  ];
+  const { isLoading, error, data } = useQuery(["comments"], () =>
+    makeRequest.get(`/comments?postId=${postId}`).then((res) => {
+      return res.data;
+    })
+  );
   return (
     <div className="comments-section">
       <div className="new-comment">
@@ -52,7 +35,8 @@ export const CommentsSection = ({ comments }: CommentsProps) => {
         <input type="text" placeholder="Type comment" />
         <button>Send</button>
       </div>
-      {comments2 && comments2.map((comment) => <Comment comment={comment} />)}
+      {data &&
+        data.map((comment) => <Comment key={comment.id} comment={comment} />)}
     </div>
   );
 };

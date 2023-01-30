@@ -17,16 +17,23 @@ export const Comment = ({ comment }: CommentProp) => {
     <div className="comment">
       <div className="comment-content">
         <div className="user">
-          <img src={`${comment.user.profilePhoto}`} alt="" />
+          <img
+            src={`${
+              comment.profilePhoto
+                ? comment.profilePhoto
+                : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+            }`}
+            alt=""
+          />
         </div>
         <div>
           <b>
-            <span>{comment.user.name}</span>
+            <span>{`${comment.name} ${comment.surname}`} </span>
           </b>
           <p>{comment.commentContent}</p>
         </div>
       </div>
-      <span>{comment.date}</span>
+      <span>{comment.createdAt}</span>
     </div>
   );
 };
