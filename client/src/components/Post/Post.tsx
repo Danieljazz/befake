@@ -3,10 +3,11 @@ import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { CommentsSection } from "../../components/CommentsSection/CommentSection";
 import { makeRequest } from "../../axiosRequest";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { AuthContext } from "../../context/authContext";
 export type PostType = {
   post: {
     id: string;
@@ -36,7 +37,9 @@ type likesRes = {
 };
 
 export const Post = ({ post }: PostType) => {
+  const { user } = useContext(AuthContext);
   const [openComments, setOpenComments] = useState<boolean>();
+  const queryClient = useQueryClient();
   const changeCommentsView = () => {
     setOpenComments(!openComments);
   };
@@ -46,6 +49,20 @@ export const Post = ({ post }: PostType) => {
     })
   );
   console.log(data);
+  const likeMutation = useMutation(
+    (liked) => {
+      if (liked) return makeRequest.post("/likes/posts", { postId: post.id });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["/likes/posts"]);
+      },
+    }
+  );
+  const likeHandle = () => {
+    likeMutation.mutate(data?.some((e) => e.likedUserId === user.id));
+  };
+
   return (
     <div className="post">
       <section className="post-top">
@@ -66,9 +83,20 @@ export const Post = ({ post }: PostType) => {
         {post.postPhoto && <img src={post.postPhoto} alt="" />}
       </div>
       <div className="action-section">
-        <button className="like" style={{}}>
-          <ThumbUpOutlinedIcon /> Like {data ? data?.length : "ih"}
-        </button>
+        {data?.some((e) => e.likedUserId === user.id) ? (
+          <ThumbUpOutlinedIcon
+            name="true"
+            style={{ color: "red", cursor: "pointer" }}
+            onClick={likeHandle}
+          />
+        ) : (
+          <ThumbUpOutlinedIcon
+            style={{ cursor: "pointer" }}
+            name="false"
+            onClick={likeHandle}
+          />
+        )}
+        "Like" {data?.length}
         <button className="comments" onClick={changeCommentsView}>
           <ModeCommentOutlinedIcon /> Comments
         </button>
