@@ -1,5 +1,5 @@
 import "./comment.scss";
-
+import moment from "moment";
 type CommentProp = {
   comment: {
     user: {
@@ -33,7 +33,7 @@ export const Comment = ({ comment }: CommentProp) => {
           <p>{comment.commentContent}</p>
         </div>
       </div>
-      <span>{comment.createdAt}</span>
+      <span>{moment(comment.createdAt).fromNow()}</span>
     </div>
   );
 };

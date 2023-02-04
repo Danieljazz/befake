@@ -7,24 +7,26 @@ import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsAc
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import { useContext } from "react";
 import { DarkModeContext } from "../../context/DarkModeContext";
+import { AuthContext } from "../../context/authContext";
 const Navbar = () => {
   const { toggle } = useContext(DarkModeContext);
+  const { user } = useContext(AuthContext);
   return (
     <div className="navbar">
       <div className="left">
-        <HomeOutlinedIcon fontSize="medium" />
-        <DarkModeOutlinedIcon fontSize="medium" onClick={toggle} />
-        <WidgetsOutlinedIcon fontSize="medium" />
+        <HomeOutlinedIcon sx={{ fontSize: "2rem" }} />
+        <DarkModeOutlinedIcon sx={{ fontSize: "2rem" }} onClick={toggle} />
+        <WidgetsOutlinedIcon sx={{ fontSize: "2rem" }} />
       </div>
       <div className="middle">
         <span>BeFake</span>
       </div>
       <div className="right">
-        <NotificationsActiveOutlinedIcon fontSize="medium" />
-        <EmailOutlinedIcon fontSize="medium" />
+        <NotificationsActiveOutlinedIcon sx={{ fontSize: "2rem" }} />
+        <EmailOutlinedIcon sx={{ fontSize: "2rem" }} />
         <div className="user">
-          <AccountCircleOutlinedIcon fontSize="medium" />
-          <span>John Doe</span>
+          <AccountCircleOutlinedIcon sx={{ fontSize: "2rem" }} />
+          <span>{`${user.name} ${user.surname}`}</span>
         </div>
       </div>
     </div>

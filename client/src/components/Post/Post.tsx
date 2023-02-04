@@ -1,6 +1,7 @@
 import "./post.scss";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { useContext, useState } from "react";
@@ -8,6 +9,7 @@ import { CommentsSection } from "../../components/CommentsSection/CommentSection
 import { makeRequest } from "../../axiosRequest";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../context/authContext";
+import moment from "moment";
 export type PostType = {
   post: {
     id: string;
@@ -43,37 +45,33 @@ export const Post = ({ post }: PostType) => {
   const changeCommentsView = () => {
     setOpenComments(!openComments);
   };
-  const { isLoading, error, data } = useQuery(["postikes", post.id], () =>
-    makeRequest.get(`/likes/posts?postId=${post.id}`).then((res) => {
+  const { isLoading, error, data } = useQuery(["postlikes", post.id], () =>
+    makeRequest.get(`/postlikes?postId=${post.id}`).then((res) => {
       return res.data;
     })
   );
-  console.log(data);
   const likeMutation = useMutation(
     (liked) => {
-      if (liked) return makeRequest.post("/likes/posts", { postId: post.id });
+      if (liked) return makeRequest.delete(`/postlikes?postId=${post.id}`);
+      return makeRequest.post("/postlikes", { postId: post.id });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["/likes/posts"]);
+        queryClient.invalidateQueries(["postlikes"]);
       },
     }
   );
   const likeHandle = () => {
     likeMutation.mutate(data?.some((e) => e.likedUserId === user.id));
   };
-
   return (
     <div className="post">
       <section className="post-top">
         <div className="user">
-          <img
-            src="https://images.pexels.com/photos/3394658/pexels-photo-3394658.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            alt=""
-          />
+          <img src={post.profilePhoto} alt="" />
           <div className="details">
             <span className="name">{`${post.name} ${post.surname}`}</span>
-            <span className="date">{post.createdAt}</span>
+            <span className="date">{moment(post.createdAt).fromNow()}</span>
           </div>
         </div>
         <MoreHorizOutlinedIcon />
@@ -83,20 +81,22 @@ export const Post = ({ post }: PostType) => {
         {post.postPhoto && <img src={post.postPhoto} alt="" />}
       </div>
       <div className="action-section">
-        {data?.some((e) => e.likedUserId === user.id) ? (
-          <ThumbUpOutlinedIcon
-            name="true"
-            style={{ color: "red", cursor: "pointer" }}
-            onClick={likeHandle}
-          />
-        ) : (
-          <ThumbUpOutlinedIcon
-            style={{ cursor: "pointer" }}
-            name="false"
-            onClick={likeHandle}
-          />
-        )}
-        "Like" {data?.length}
+        <button>
+          {data?.some((e) => e.likedUserId === user.id) ? (
+            <FavoriteIcon
+              name="true"
+              style={{ color: "red", cursor: "pointer" }}
+              onClick={likeHandle}
+            />
+          ) : (
+            <FavoriteBorderIcon
+              style={{ cursor: "pointer" }}
+              name="false"
+              onClick={likeHandle}
+            />
+          )}
+          "Like" {data?.length}
+        </button>
         <button className="comments" onClick={changeCommentsView}>
           <ModeCommentOutlinedIcon /> Comments
         </button>

@@ -13,74 +13,76 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import GolfCourseOutlinedIcon from "@mui/icons-material/GolfCourseOutlined";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 const Leftbar = () => {
+  const { user } = useContext(AuthContext);
   return (
     <div className="leftbar">
-      <div className="container">
-        <div className="item">
-          <AccountCircleOutlinedIcon />
-          <span>John Doe</span>
-        </div>
-        <div className="item">
-          <Diversity3OutlinedIcon />
+      <ul>
+        <li>
+          <AccountCircleOutlinedIcon sx={{ fontSize: "2rem" }} />
+          <span>{`${user.name} ${user.surname}`}</span>
+        </li>
+        <li>
+          <Diversity3OutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Friends</span>
-        </div>
-        <div className="item">
-          <Groups2OutlinedIcon />
+        </li>
+        <li>
+          <Groups2OutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Groups</span>
-        </div>
-        <div className="item">
-          <StorefrontOutlinedIcon />
+        </li>
+        <li>
+          <StorefrontOutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Marketplace</span>
-        </div>
-        <div className="item">
-          <OndemandVideoOutlinedIcon />
+        </li>
+        <li>
+          <OndemandVideoOutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Watch</span>
-        </div>
-        <div className="item">
-          <TimerOutlinedIcon />
+        </li>
+        <li>
+          <TimerOutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Memories </span>
-        </div>
-        <hr />
+        </li>
         <div className="section-divider">
           <span>Your shortcuts</span>
         </div>
-        <div className="item">
-          <EventAvailableOutlinedIcon />
+        <li>
+          <EventAvailableOutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Events</span>
-        </div>
-        <div className="item">
-          <SportsEsportsOutlinedIcon />
+        </li>
+        <li>
+          <SportsEsportsOutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Gaming</span>
-        </div>
-        <div className="item">
-          <CollectionsOutlinedIcon />
+        </li>
+        <li>
+          <CollectionsOutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Gallery</span>
-        </div>
-        <div className="item">
-          <PersonalVideoOutlinedIcon />
+        </li>
+        <li>
+          <PersonalVideoOutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Videos</span>
-        </div>
-        <div className="item">
-          <EmailOutlinedIcon />
+        </li>
+        <li>
+          <EmailOutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Messages</span>
-        </div>
+        </li>
         <div className="section-divider">
           <span>Other</span>
         </div>
-        <div className="item">
-          <LocalMallOutlinedIcon />
+        <li>
+          <LocalMallOutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Fundraiser</span>
-        </div>
-        <div className="item">
-          <AccountTreeOutlinedIcon />
+        </li>
+        <li>
+          <AccountTreeOutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Tutorials</span>
-        </div>
-        <div className="item">
-          <GolfCourseOutlinedIcon />
+        </li>
+        <li>
+          <GolfCourseOutlinedIcon sx={{ fontSize: "2rem" }} />
           <span>Courses</span>
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
   );
 };

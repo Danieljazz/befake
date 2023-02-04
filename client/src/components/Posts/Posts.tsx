@@ -6,16 +6,18 @@ import { PostType } from "../Post/Post";
 import { FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 
-export const Posts = () => {
+export const Posts = ({ userId }) => {
   const { user } = useContext(AuthContext);
   const [desc, setDesc] = useState("");
   const [photo, setPhoto] = useState(null);
   const [createError, setCreateError] = useState(null);
   const queryClient = useQueryClient();
   const { isLoading, error, data } = useQuery(["posts"], () =>
-    makeRequest.get<PostType["post"][]>("/posts").then((res) => {
-      return res.data;
-    })
+    makeRequest
+      .get<PostType["post"][]>("/posts?userId=" + userId)
+      .then((res) => {
+        return res.data;
+      })
   );
   const postChange = (e: FormEvent) => {
     const target = e.target as HTMLInputElement;

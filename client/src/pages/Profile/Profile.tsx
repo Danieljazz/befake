@@ -4,8 +4,23 @@ import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import "./profile.scss";
+import { useLocation } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { makeRequest } from "../../axiosRequest";
 
 const Profile = () => {
+  const userId = parseInt(useLocation().pathname.split("/")[2]);
+  const { isLoading, error, data } = useQuery(["users"], () =>
+    makeRequest
+      .get(`/users/find?userId=${userId}`)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return err;
+      })
+  );
+  console.log(data);
   return (
     <div className="profile">
       <div
@@ -18,11 +33,17 @@ const Profile = () => {
       ></div>
       <div className="profile-description">
         <img
-          src="https://images.pexels.com/photos/3394658/pexels-photo-3394658.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          src={
+            data?.profilePhoto
+              ? data.profilePhoto
+              : " https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+          }
           alt=""
         />
         <div className="description-section">
-          <span>Jane Doe</span>
+          <span>
+            {data?.name} {data?.surname}
+          </span>
           <div className="profile-socials">
             <div className="socials">
               <i className="lab la-linkedin"></i>
@@ -33,9 +54,9 @@ const Profile = () => {
             </div>
             <div className="localisation">
               <FmdGoodOutlinedIcon />
-              <span>USA</span>
+              <span>{data?.country ? data.country : "N/A"}</span>
               <LanguageOutlinedIcon />
-              <span>web.dev</span>
+              <span>{data?.website ? data.website : "N/A"}</span>
             </div>
             <div className="options">
               <MoreHorizOutlinedIcon />
@@ -45,7 +66,7 @@ const Profile = () => {
           <button>Follow</button>
         </div>
       </div>
-      <Posts />
+      <Posts userId={userId} />
     </div>
   );
 };

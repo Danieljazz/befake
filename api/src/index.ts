@@ -21,7 +21,7 @@ app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/posts", postsRoutes);
 app.use("/api/v1/comments", commentsRoutes);
-app.use("/api/v1/likes", likesRoutes);
+app.use("/api/v1/postlikes", likesRoutes);
 app.listen("8080", () => {
   console.log("backend run on port 8080");
 });

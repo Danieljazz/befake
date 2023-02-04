@@ -3,7 +3,7 @@
 .rightbar {
   @include themify($themes) {
     background: themed("background");
-    @include mobile {
+    @media (max-width: 900px) {
       display: none;
     }
     .container {
@@ -17,12 +17,12 @@
       color: themed(textColor);
       .section {
         min-height: 100px;
-        border: 1px solid themed("borderColor");
+        //border: px solid themed("borderColor");
         margin-bottom: 20px;
         background-color: themed("background");
         padding: 10px 20px 10px 10px;
         border-radius: 24px 21px;
-        box-shadow: 0px 0px 5px 1px themed("borderColor");
+        box-shadow: 0px 0px 11px 6px themed("borderColor2");
         & > span {
           font-size: 20px;
         }

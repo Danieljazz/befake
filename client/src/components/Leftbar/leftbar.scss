@@ -4,36 +4,36 @@
   @include themify($themes) {
     flex: 1;
     background: themed(background);
-    @include mobile {
+    @media (max-width: 1140px) {
       display: none;
     }
-    .container {
-      margin-top: 20px;
+    ul {
       position: sticky;
       top: 0;
       background: white;
       display: flex;
-      width: 300px;
+      width: 250px;
       justify-content: space-between;
       flex-direction: column;
-      background: themed(background);
+      background: themed("background");
       color: themed(textColor);
-      border-right: 1px solid themed("borderColor2");
-      .item {
+      border-right: 1px solid themed("inactiveText");
+      li {
         width: 100%;
         display: flex;
         align-items: center;
-        margin: 10px 0px 10px 10px;
+        margin: 10px 0px 10px 0px;
         gap: 1rem;
+        font-style: 2rem;
       }
       .section-divider {
         margin: 20px 0px 15px 10px;
         width: 90%;
-        border-bottom: 1px solid themed("borderColor2");
+        border-bottom: 1px solid themed("inactiveText");
         text-align: end;
         span {
           font-size: 14px;
-          color: themed("borderColor2");
+          color: themed("inactiveText");
         }
       }
     }

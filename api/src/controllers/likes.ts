@@ -26,7 +26,7 @@ export const deletePostLikes = (req, res) => {
   jwt.verify(token, process.env.key, (err, userInfo) => {
     if (err) return res.status(403).json("Invalid token");
     const q = `DELETE FROM postlikes WHERE likedPostId = ? AND likedUserId = ?`;
-    db.query(q, [req.body.postId, userInfo.id], (err, data) => {
+    db.query(q, [req.query.postId, userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json("Like deleted");
     });
