@@ -18,6 +18,9 @@
       align-items: center;
       justify-content: space-around;
       font-size: 2rem;
+      & svg {
+        color: themed("textColor");
+      }
       @include mobile {
         justify-content: center;
         & > svg:first-child,
@@ -32,6 +35,7 @@
       text-align: center;
       span {
         font-size: 80px;
+        color: themed("textColor");
       }
       padding-right: 150px;
       @include mobile {
@@ -46,6 +50,9 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
+      & svg {
+        color: themed("textColor");
+      }
       @include mobile {
         flex: 1;
         gap: 2rem;
@@ -62,6 +69,12 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        text-decoration: none;
+        & span {
+          text-decoration: none;
+          color: themed("textColor");
+        }
+
         @include mobile {
           flex: none;
           gap: 200px;

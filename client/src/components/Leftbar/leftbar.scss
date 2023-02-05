@@ -18,13 +18,15 @@
       background: themed("background");
       color: themed(textColor);
       border-right: 1px solid themed("inactiveText");
-      li {
+      li,
+      a {
         width: 100%;
         display: flex;
         align-items: center;
         margin: 10px 0px 10px 0px;
         gap: 1rem;
         font-style: 2rem;
+        color: themed("textColor");
       }
       .section-divider {
         margin: 20px 0px 15px 10px;

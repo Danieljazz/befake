@@ -15,14 +15,17 @@ import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import GolfCourseOutlinedIcon from "@mui/icons-material/GolfCourseOutlined";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
+import { Link } from "react-router-dom";
 const Leftbar = () => {
   const { user } = useContext(AuthContext);
   return (
     <div className="leftbar">
       <ul>
         <li>
-          <AccountCircleOutlinedIcon sx={{ fontSize: "2rem" }} />
-          <span>{`${user.name} ${user.surname}`}</span>
+          <Link to={`/profile/${user.id}`} style={{ textDecoration: "none" }}>
+            <AccountCircleOutlinedIcon sx={{ fontSize: "2rem" }} />
+            <span>{`${user.name} ${user.surname}`}</span>
+          </Link>
         </li>
         <li>
           <Diversity3OutlinedIcon sx={{ fontSize: "2rem" }} />

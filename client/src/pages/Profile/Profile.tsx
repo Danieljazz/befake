@@ -7,9 +7,12 @@ import "./profile.scss";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../axiosRequest";
+import { AuthContext } from "../../context/authContext";
+import { useContext } from "react";
 
 const Profile = () => {
   const userId = parseInt(useLocation().pathname.split("/")[2]);
+  const { user } = useContext(AuthContext);
   const { isLoading, error, data } = useQuery(["users"], () =>
     makeRequest
       .get(`/users/find?userId=${userId}`)
@@ -20,7 +23,6 @@ const Profile = () => {
         return err;
       })
   );
-  console.log(data);
   return (
     <div className="profile">
       <div
@@ -63,7 +65,11 @@ const Profile = () => {
               <EmailOutlinedIcon />
             </div>
           </div>
-          <button>Follow</button>
+          {userId !== user.id ? (
+            <button>Follow</button>
+          ) : (
+            <button>Update</button>
+          )}
         </div>
       </div>
       <Posts userId={userId} />

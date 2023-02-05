@@ -3,24 +3,21 @@ import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 import { Comment } from "../../components/Comment/Comment";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
+import indicator from "../../assets/indicator.gif";
 import { makeRequest } from "../../axiosRequest";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-type CommentsProps = {
-  comments?: [
-    {
-      user: {
-        id: string;
-        profilePhoto?: string;
-        name: string;
-      };
-      commentContent: string;
-      date: string;
-    }
-  ];
+import { CommentProp } from "../Comment/Comment";
+
+type CommentSectionType = {
+  postId: number;
 };
 
-export const CommentsSection = ({ postId }: string) => {
+type newCommentType = {
+  commentPostId: number;
+  commentContent: string;
+};
+export const CommentsSection = ({ postId }: CommentSectionType) => {
   const { user } = useContext(AuthContext);
   const [commentDesc, setCommentDesc] = useState("");
   const queryClient = useQueryClient();
@@ -30,8 +27,11 @@ export const CommentsSection = ({ postId }: string) => {
     })
   );
   const commentMutation = useMutation(
-    (newComment) => {
-      makeRequest.post("/comments", newComment);
+    ({ commentPostId, commentContent }: newCommentType) => {
+      makeRequest.post("/comments", {
+        commentPostId: commentPostId,
+        commentContent: commentContent,
+      });
     },
     {
       onSuccess: () => {
@@ -62,8 +62,16 @@ export const CommentsSection = ({ postId }: string) => {
           Send
         </button>
       </div>
-      {data &&
-        data.map((comment) => <Comment key={comment.id} comment={comment} />)}
+      {error ? (
+        <div style={{ color: "red" }}>"Something went wrong"</div>
+      ) : isLoading ? (
+        <img src={indicator} width={40} style={{ margin: "10px 20px" }} />
+      ) : (
+        data &&
+        data.map((comment: CommentProp) => (
+          <Comment key={comment.id} {...comment} />
+        ))
+      )}
     </div>
   );
 };

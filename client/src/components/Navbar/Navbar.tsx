@@ -8,26 +8,36 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import { useContext } from "react";
 import { DarkModeContext } from "../../context/DarkModeContext";
 import { AuthContext } from "../../context/authContext";
+import { Link } from "react-router-dom";
 const Navbar = () => {
   const { toggle } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
   return (
     <div className="navbar">
       <div className="left">
-        <HomeOutlinedIcon sx={{ fontSize: "2rem" }} />
+        <Link to={"/"}>
+          <HomeOutlinedIcon
+            sx={{ fontSize: "2rem" }}
+            style={{ cursor: "pointer" }}
+          />
+        </Link>
         <DarkModeOutlinedIcon sx={{ fontSize: "2rem" }} onClick={toggle} />
         <WidgetsOutlinedIcon sx={{ fontSize: "2rem" }} />
       </div>
       <div className="middle">
-        <span>BeFake</span>
+        <Link to={"/"} style={{ textDecoration: "none" }}>
+          <span>BeFake</span>
+        </Link>
       </div>
       <div className="right">
         <NotificationsActiveOutlinedIcon sx={{ fontSize: "2rem" }} />
         <EmailOutlinedIcon sx={{ fontSize: "2rem" }} />
-        <div className="user">
-          <AccountCircleOutlinedIcon sx={{ fontSize: "2rem" }} />
-          <span>{`${user.name} ${user.surname}`}</span>
-        </div>
+        <Link to={`/profile/${user.id}`} style={{ textDecoration: "none" }}>
+          <div className="user">
+            <AccountCircleOutlinedIcon sx={{ fontSize: "2rem" }} />
+            <span>{`${user.name} ${user.surname}`}</span>
+          </div>
+        </Link>
       </div>
     </div>
   );

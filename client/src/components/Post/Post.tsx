@@ -40,7 +40,7 @@ type likesRes = {
 
 export const Post = ({ post }: PostType) => {
   const { user } = useContext(AuthContext);
-  const [openComments, setOpenComments] = useState<boolean>();
+  const [openComments, setOpenComments] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const changeCommentsView = () => {
     setOpenComments(!openComments);
