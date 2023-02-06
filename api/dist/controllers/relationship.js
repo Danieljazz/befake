@@ -40,4 +40,4 @@ export const deleteRelathionship = (req, res) => {
         });
     });
 };
-//# sourceMappingURL=relathionship.js.map
+//# sourceMappingURL=relationship.js.map

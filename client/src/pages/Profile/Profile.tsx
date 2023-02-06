@@ -5,7 +5,7 @@ import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import "./profile.scss";
 import { useLocation } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../axiosRequest";
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
@@ -13,6 +13,7 @@ import { useContext } from "react";
 const Profile = () => {
   const userId = parseInt(useLocation().pathname.split("/")[2]);
   const { user } = useContext(AuthContext);
+  const queryClient = useQueryClient();
   const { isLoading, error, data } = useQuery(["users"], () =>
     makeRequest
       .get(`/users/find?userId=${userId}`)
@@ -23,6 +24,40 @@ const Profile = () => {
         return err;
       })
   );
+  const { relationshipData } = useQuery(
+    ["relationships"],
+    () =>
+      makeRequest
+        .get(`/relationships?userId=8`)
+        .then((res) => {
+          return res;
+        })
+        .catch((err) => {
+          return err;
+        }),
+    { initialData: [] }
+  );
+
+  const followMutation = useMutation(
+    (followed: boolean) => {
+      if (followed) {
+        return makeRequest.delete(`/relationships?followedUserId=${user.id}`);
+      } else {
+        return makeRequest.post(`/relationships`, { followedUserId: userId });
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["relationship"]);
+      },
+    }
+  );
+
+  const handleFollow = () => {
+    console.log(relationshipData);
+    followMutation.mutate(!relationshipData?.includes(user.id));
+  };
+
   return (
     <div className="profile">
       <div
@@ -66,7 +101,9 @@ const Profile = () => {
             </div>
           </div>
           {userId !== user.id ? (
-            <button>Follow</button>
+            <button style={{ cursor: "pointer" }} onClick={handleFollow}>
+              {relationshipData?.includes(userId) ? "Follow" : "Unfollow"}
+            </button>
           ) : (
             <button>Update</button>
           )}

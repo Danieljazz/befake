@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState, ReactNode, FC } from "react";
 import axios from "axios";
 type UserType = {
-  id: string;
+  id: number;
   name: string;
   surname: string;
   profilePhoto: string;
