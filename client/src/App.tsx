@@ -1,4 +1,5 @@
-import React, { useContext, FC } from "react";
+import { useContext, FC } from "react";
+import { useLocation } from "react-router-dom";
 import "./style.scss";
 import GolfCourseOutlinedIcon from "@mui/icons-material/GolfCourseOutlined";
 import Login from "./pages/Login/Login";
@@ -25,6 +26,7 @@ const App = () => {
   const { user } = useContext(AuthContext);
   const { darkMode } = useContext(DarkModeContext);
   const Layout: FC = () => {
+    const location = useLocation();
     return (
       <QueryClientProvider client={queryClient}>
         <div className={`theme-${darkMode ? "dark" : "light"}`}>
@@ -32,7 +34,7 @@ const App = () => {
           <div style={{ display: "flex" }}>
             <Leftbar />
             <div style={{ flex: 6, overflow: "hidden" }}>
-              <Outlet />
+              <Outlet key={location.pathname} />
             </div>
             <Rightbar />
           </div>
