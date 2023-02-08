@@ -1,10 +1,66 @@
+@import "../../style.scss";
 .update-modal {
-  position: absolute;
-  margin: auto;
-  width: 100vw;
-  height: 600px;
-  top: 200px;
-  z-index: 4;
-  background-color: rgba(145, 144, 144, 0.495);
-  overflow-x: hidden;
+  @include themify($themes) {
+    position: absolute;
+    margin: auto;
+    width: 95%;
+    height: 600px;
+    top: 200px;
+    z-index: 4;
+    background-color: themed("modalBackground");
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px 20px;
+    box-shadow: 0px 0px 11px 6px themed("borderColor2");
+    h1 {
+      color: aliceblue;
+      padding-top: 20px;
+      text-align: center;
+      font-weight: normal;
+    }
+    section {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      label {
+        margin: 30px 30px;
+        color: aliceblue;
+        font-size: 18px;
+        input {
+          margin: 5px 14px;
+          width: 180px;
+          outline: none;
+          border: none;
+          height: 30px;
+          background-color: #fff2eb;
+          font-size: 20px;
+          border-radius: 70px 70px;
+          padding: 0px 5px;
+          @include mobile {
+            font-size: 16px;
+            height: 24px;
+          }
+        }
+      }
+    }
+    .update {
+      margin-top: 40px;
+      background-color: rgb(89, 100, 195);
+      border: none;
+      font-size: 20px;
+      border-radius: 16px 16px;
+      width: 100px;
+      color: aliceblue;
+      height: 40px;
+      cursor: pointer;
+      box-shadow: 0px 0px 11px 6px rgb(64 64 64 / 45%);
+    }
+    .close {
+      position: absolute;
+      right: 10px;
+      top: 20px;
+    }
+  }
 }

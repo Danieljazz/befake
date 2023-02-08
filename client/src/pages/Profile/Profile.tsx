@@ -14,7 +14,7 @@ import UpdateModal from "../../components/UpdateModal/UpdateModal";
 const Profile = () => {
   const userId = parseInt(useLocation().pathname.split("/")[2]);
   const { user } = useContext(AuthContext);
-  const [openUpdate, setOpenUpdate] = useState(true);
+  const [openUpdate, setOpenUpdate] = useState(false);
   const queryClient = useQueryClient();
   const { isLoading, error, data } = useQuery(["users"], () =>
     makeRequest
@@ -66,7 +66,6 @@ const Profile = () => {
         <img src={indicator} />
       ) : (
         <>
-          {openUpdate && <UpdateModal />}
           <div
             className="profile-background"
             style={{
@@ -114,11 +113,14 @@ const Profile = () => {
                   {!relationshipData.includes(userId) ? "Follow" : "Unfollow"}
                 </button>
               ) : (
-                <button onClick={openUpdateModal}>Update</button>
+                <button onClick={() => setOpenUpdate(true)}>Update</button>
               )}
             </div>
           </div>
           <Posts userId={userId} />{" "}
+          {openUpdate && (
+            <UpdateModal user={data} setOpenUpdate={setOpenUpdate} />
+          )}
         </>
       )}
     </div>
