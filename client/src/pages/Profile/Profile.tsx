@@ -59,7 +59,6 @@ const Profile = () => {
     followMutation.mutate(relationshipData.includes(userId));
   };
 
-  const openUpdateModal = () => {};
   return (
     <div className="profile">
       {isLoading ? (

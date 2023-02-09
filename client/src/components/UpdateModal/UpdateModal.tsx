@@ -1,29 +1,60 @@
 import "./updateModal.scss";
 import { useState } from "react";
+import { useContext } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { makeRequest } from "../../axiosRequest";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { AuthContext } from "../../context/authContext";
 const UpdateModal = ({ user, setOpenUpdate }) => {
   const [updatedData, setUpdatedData] = useState(user);
+  const queryClient = useQueryClient();
   const handlerChange = (e) => {
     setUpdatedData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+  const { setUser } = useContext(AuthContext);
+  const updateMutate = useMutation(
+    (data) => {
+      const { id, ...others } = data;
+      return makeRequest
+        .put("/users/update", others)
+        .then(() => {
+          setOpenUpdate(false);
+          setUser(data);
+        })
+        .catch((err) => {
+          return console.log(err);
+        });
+    },
+    { onSuccess: () => queryClient.invalidateQueries(["users"]) }
+  );
+
   const updateUser = () => {
     const { id, ...others } = updatedData;
     console.log(others);
-    return makeRequest
-      .post("/users/update", {
-        mail: updatedData["mail"],
-        name: updatedData["name"],
-        surname: updatedData["surname"],
-        webiste: updatedData["webiste"],
-        backgroundPhoto: null,
-        profilePhoto: updatedData["profilePhoto"],
-        country: updatedData["country"],
-      })
-      .then(() => setOpenUpdate(false))
-      .catch((err) => {
-        return console.log(err);
-      });
+    updateMutate.mutate({
+      id: updatedData["id"],
+      mail: updatedData["mail"],
+      name: updatedData["name"],
+      surname: updatedData["surname"],
+      webiste: updatedData["webiste"],
+      backgroundPhoto: null,
+      profilePhoto: updatedData["profilePhoto"],
+      country: updatedData["country"],
+    });
+    // return makeRequest
+    //   .put("/users/update", {
+    //     mail: updatedData["mail"],
+    //     name: updatedData["name"],
+    //     surname: updatedData["surname"],
+    //     webiste: updatedData["webiste"],
+    //     backgroundPhoto: null,
+    //     profilePhoto: updatedData["profilePhoto"],
+    //     country: updatedData["country"],
+    //   })
+    //   .then(() => setOpenUpdate(false))
+    //   .catch((err) => {
+    //     return console.log(err);
+    //   });
   };
   return (
     <div className="update-modal">

@@ -42,7 +42,7 @@ export const AuthContextProvider: FC<AuthContextProviderType> = ({
   }, [user]);
 
   return (
-    <AuthContext.Provider value={{ user, login }}>
+    <AuthContext.Provider value={{ user, login, setUser }}>
       {children}
     </AuthContext.Provider>
   );
