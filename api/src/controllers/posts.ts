@@ -44,3 +44,15 @@ export const createPost = (req, res) => {
     });
   });
 };
+
+export const deletePost = (req, res) => {
+  const token = req.cookies.accessToken;
+  jwt.verify(token, process.env.key, (err, data) => {
+    if (err) return res.status(403).json("Invalid token");
+    const q = "DELETE FROM posts WHERE id=?";
+    db.query(q, req.query.postId, (error, data) => {
+      if (error) return res.status(500).json("Smth went wrong");
+      return res.status(200).json("post deleted");
+    });
+  });
+};
