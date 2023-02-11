@@ -1,0 +1,35 @@
+.delete-dropdown {
+  margin-top: 16px;
+  width: 100px;
+  position: relative;
+  &::after {
+    content: "";
+    background-color: rgb(243, 241, 239);
+    width: 30px;
+    height: 30px;
+    transform: rotateZ(315deg);
+    border-radius: 15px 6px;
+    border: 2px solid #000;
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: -10px;
+  }
+  .options {
+    z-index: 3;
+    width: 100%;
+    background-color: antiquewhite;
+    display: flex;
+    flex-direction: column;
+    border: solid 2px #000;
+    border-radius: 13px 12px;
+    overflow: hidden;
+    position: relative;
+    button {
+      font-size: 14px;
+      padding: 5px 5px;
+    }
+  }
+}

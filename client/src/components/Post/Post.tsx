@@ -10,37 +10,32 @@ import { makeRequest } from "../../axiosRequest";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../context/authContext";
 import moment from "moment";
+import DeleteDropdown from "../DeleteModal/DeleteDropdown";
 export type PostType = {
   post: {
-    id: string;
+    id: number;
+    userId: number;
     name: string;
     surname: string;
     postContent: string;
-    createdAt: string;
+    createdAt: Date;
     postPhoto?: string;
-    comments?: [
-      {
-        user: {
-          id: string;
-          profilePhoto: string;
-          name: string;
-        };
-        commentContent: string;
-        date: string;
-      }
-    ];
+    profilePhoto?: string;
   };
 };
 
-type likesRes = {
-  isLoading: boolean;
-  error: unknown;
-  data: string[];
+type PostLikesType = {
+  id: number;
+  likedPostId: number;
+  likedUserId: number;
+  name: string;
+  surname: string;
 };
 
 export const Post = ({ post }: PostType) => {
   const { user } = useContext(AuthContext);
   const [openComments, setOpenComments] = useState<boolean>(false);
+  const [openOptions, setOpenOptions] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const changeCommentsView = () => {
     setOpenComments(!openComments);
@@ -51,7 +46,7 @@ export const Post = ({ post }: PostType) => {
     })
   );
   const likeMutation = useMutation(
-    (liked) => {
+    (liked: boolean) => {
       if (liked) return makeRequest.delete(`/postlikes?postId=${post.id}`);
       return makeRequest.post("/postlikes", { postId: post.id });
     },
@@ -62,7 +57,9 @@ export const Post = ({ post }: PostType) => {
     }
   );
   const likeHandle = () => {
-    likeMutation.mutate(data?.some((e) => e.likedUserId === user.id));
+    likeMutation.mutate(
+      data?.some((e: PostLikesType) => e.likedUserId === user.id)
+    );
   };
   return (
     <div className="post">
@@ -74,7 +71,22 @@ export const Post = ({ post }: PostType) => {
             <span className="date">{moment(post.createdAt).fromNow()}</span>
           </div>
         </div>
-        <MoreHorizOutlinedIcon />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "flex-start",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {user.id === post.userId && (
+            <button onClick={() => setOpenOptions((prev) => !prev)}>
+              <MoreHorizOutlinedIcon />
+            </button>
+          )}
+          {openOptions && <DeleteDropdown postId={post.id} />}
+        </div>
       </section>
       <div className="post-content">
         <span>{post.postContent}</span>
@@ -82,7 +94,7 @@ export const Post = ({ post }: PostType) => {
       </div>
       <div className="action-section">
         <button>
-          {data?.some((e) => e.likedUserId === user.id) ? (
+          {data?.some((e: PostLikesType) => e.likedUserId === user.id) ? (
             <FavoriteIcon
               name="true"
               style={{ color: "red", cursor: "pointer" }}

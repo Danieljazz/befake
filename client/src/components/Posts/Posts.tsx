@@ -7,11 +7,20 @@ import { FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import { useLocation } from "react-router-dom";
 
-export const Posts = ({ userId }) => {
+type NewPostType = {
+  postContent: string;
+  postPhoto: string | null;
+};
+
+type IProps = {
+  userId: number;
+};
+
+export const Posts = ({ userId }: IProps) => {
   const { user } = useContext(AuthContext);
   const [desc, setDesc] = useState("");
   const [photo, setPhoto] = useState(null);
-  const [createError, setCreateError] = useState(null);
+  const [postError, setPostError] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const path = useLocation().pathname;
   const { isLoading, error, data } = useQuery(["posts"], () =>
@@ -27,20 +36,18 @@ export const Posts = ({ userId }) => {
   };
 
   const postMutation = useMutation(
-    (newPost) => {
-      return makeRequest.post("/posts", newPost);
-    },
+    (newPost: NewPostType) => makeRequest.post("/posts", newPost),
     {
-      onError: (err) => setCreateError(err),
+      onError: () => setPostError(true),
       onSuccess: () => {
         setDesc("");
-        setCreateError(null);
+        setPostError(false);
         return queryClient.invalidateQueries(["posts"]);
       },
     }
   );
 
-  const createPost = (e) => {
+  const createPost = (e: React.FormEvent) => {
     e.preventDefault();
     postMutation.mutate({ postContent: desc, postPhoto: photo });
   };
@@ -64,9 +71,7 @@ export const Posts = ({ userId }) => {
             <button className="share" onClick={createPost}>
               Share
             </button>
-            {createError && (
-              <div style={{ color: "red" }}>Smth went wrong..</div>
-            )}
+            {postError && <div style={{ color: "red" }}>Smth went wrong..</div>}
           </div>
         </div>
       )}

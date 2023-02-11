@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState, ReactNode, FC } from "react";
 import axios from "axios";
-type UserType = {
+type UserContextType = {
   id: number;
   name: string;
   surname: string;
@@ -9,7 +9,8 @@ type UserType = {
 
 type AuthContextType = {
   login: (loginData: LoginType) => void;
-  user: UserType;
+  user: UserContextType;
+  setUser: (value: UserContextType | ((prev: null) => UserContextType)) => void;
 };
 type AuthContextProviderType = {
   children: ReactNode;
@@ -25,7 +26,7 @@ export const AuthContext = createContext({} as AuthContextType);
 export const AuthContextProvider: FC<AuthContextProviderType> = ({
   children,
 }) => {
-  const [user, setUser] = useState<UserType>(
+  const [user, setUser] = useState<UserContextType>(
     JSON.parse(localStorage.getItem("user")!) || null
   );
   const login = async (inputs) => {

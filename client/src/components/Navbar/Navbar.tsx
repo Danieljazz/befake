@@ -21,7 +21,11 @@ const Navbar = () => {
             style={{ cursor: "pointer" }}
           />
         </Link>
-        <DarkModeOutlinedIcon sx={{ fontSize: "2rem" }} onClick={toggle} />
+        <DarkModeOutlinedIcon
+          sx={{ fontSize: "2rem" }}
+          onClick={toggle}
+          style={{ cursor: "pointer" }}
+        />
         <WidgetsOutlinedIcon sx={{ fontSize: "2rem" }} />
       </div>
       <div className="middle">
@@ -30,6 +34,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="right">
+        {/* TODO: Add dropdown */}
         <NotificationsActiveOutlinedIcon sx={{ fontSize: "2rem" }} />
         <EmailOutlinedIcon sx={{ fontSize: "2rem" }} />
         <Link to={`/profile/${user.id}`} style={{ textDecoration: "none" }}>

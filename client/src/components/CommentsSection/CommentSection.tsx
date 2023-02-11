@@ -2,7 +2,6 @@ import "./commentsSection.scss";
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 import { Comment } from "../../components/Comment/Comment";
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import indicator from "../../assets/indicator.gif";
 import { makeRequest } from "../../axiosRequest";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -27,12 +26,11 @@ export const CommentsSection = ({ postId }: CommentSectionType) => {
     })
   );
   const commentMutation = useMutation(
-    ({ commentPostId, commentContent }: newCommentType) => {
+    ({ commentPostId, commentContent }: newCommentType) =>
       makeRequest.post("/comments", {
         commentPostId: commentPostId,
         commentContent: commentContent,
-      });
-    },
+      }),
     {
       onSuccess: () => {
         setCommentDesc("");

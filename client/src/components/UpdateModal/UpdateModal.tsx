@@ -5,11 +5,29 @@ import CloseIcon from "@mui/icons-material/Close";
 import { makeRequest } from "../../axiosRequest";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { AuthContext } from "../../context/authContext";
-const UpdateModal = ({ user, setOpenUpdate }) => {
-  const [updatedData, setUpdatedData] = useState(user);
+
+type UserProps = {
+  id: number;
+  mail: string;
+  name: string;
+  surname: string;
+  website: string | null;
+  backgroundPhoto: string | null;
+  profilePhoto: string | null;
+  country: string | null;
+};
+
+type UpdateModalProps = {
+  user: UserProps; //TODO: import from profile
+  setOpenUpdate: (value: boolean | ((prevVar: boolean) => boolean)) => void;
+};
+
+const UpdateModal = ({ user, setOpenUpdate }: UpdateModalProps) => {
+  const [updatedData, setUpdatedData] = useState<UserProps>(user);
   const queryClient = useQueryClient();
-  const handlerChange = (e) => {
-    setUpdatedData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const handlerChange = (e: React.FormEvent) => {
+    const target = e.target as HTMLInputElement;
+    setUpdatedData((prev) => ({ ...prev, [target.name]: target.value }));
   };
   const { setUser } = useContext(AuthContext);
   const updateMutate = useMutation(
