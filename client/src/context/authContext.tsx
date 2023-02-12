@@ -4,13 +4,15 @@ type UserContextType = {
   id: number;
   name: string;
   surname: string;
-  profilePhoto: string;
+  profilePhoto?: string;
 };
 
 type AuthContextType = {
   login: (loginData: LoginType) => void;
   user: UserContextType;
-  setUser: (value: UserContextType | ((prev: null) => UserContextType)) => void;
+  setUser: (
+    value: UserContextType | ((prev: UserContextType) => UserContextType)
+  ) => void;
 };
 type AuthContextProviderType = {
   children: ReactNode;
@@ -29,13 +31,14 @@ export const AuthContextProvider: FC<AuthContextProviderType> = ({
   const [user, setUser] = useState<UserContextType>(
     JSON.parse(localStorage.getItem("user")!) || null
   );
-  const login = async (inputs) => {
+  const login = async (inputs: LoginType) => {
     const res = await axios.post(
       "http://localhost:8080/api/v1/auth/login",
       inputs,
       { withCredentials: true }
     );
-    setUser(res.data);
+    const newUser: UserContextType = res.data;
+    setUser(newUser);
   };
 
   useEffect(() => {

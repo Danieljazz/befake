@@ -13,7 +13,7 @@ type UserProps = {
   surname: string;
   website: string | null;
   backgroundPhoto: string | null;
-  profilePhoto: string | null;
+  profilePhoto: string;
   country: string | null;
 };
 
@@ -31,13 +31,14 @@ const UpdateModal = ({ user, setOpenUpdate }: UpdateModalProps) => {
   };
   const { setUser } = useContext(AuthContext);
   const updateMutate = useMutation(
-    (data) => {
+    (data: UserProps) => {
       const { id, ...others } = data;
       return makeRequest
         .put("/users/update", others)
         .then(() => {
           setOpenUpdate(false);
-          setUser(data);
+          const { id, name, surname, profilePhoto } = data;
+          setUser({ id, name, surname, profilePhoto });
         })
         .catch((err) => {
           return console.log(err);
@@ -54,7 +55,7 @@ const UpdateModal = ({ user, setOpenUpdate }: UpdateModalProps) => {
       mail: updatedData["mail"],
       name: updatedData["name"],
       surname: updatedData["surname"],
-      webiste: updatedData["webiste"],
+      website: updatedData["website"],
       backgroundPhoto: null,
       profilePhoto: updatedData["profilePhoto"],
       country: updatedData["country"],
@@ -105,7 +106,7 @@ const UpdateModal = ({ user, setOpenUpdate }: UpdateModalProps) => {
         <label>
           Mail:
           <input
-            type="text"
+            type="email"
             name="mail"
             id="mail"
             value={updatedData.mail}
@@ -115,10 +116,10 @@ const UpdateModal = ({ user, setOpenUpdate }: UpdateModalProps) => {
         <label>
           Website:
           <input
-            type="text"
+            type="url"
             name="website"
             id="website"
-            value={updatedData.website}
+            placeholder={updatedData.website ? updatedData.website : ""}
             onChange={handlerChange}
           />
         </label>
@@ -128,7 +129,9 @@ const UpdateModal = ({ user, setOpenUpdate }: UpdateModalProps) => {
             type="text"
             name="profilePhoto"
             id="profilePhoto"
-            value={updatedData.profilePhoto}
+            placeholder={
+              updatedData.profilePhoto ? updatedData.profilePhoto : ""
+            }
             onChange={handlerChange}
           />
         </label>
@@ -138,7 +141,7 @@ const UpdateModal = ({ user, setOpenUpdate }: UpdateModalProps) => {
             type="text"
             name="country"
             id="country"
-            value={updatedData.country}
+            placeholder={updatedData.country ? updatedData.country : ""}
             onChange={handlerChange}
           />
         </label>

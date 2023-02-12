@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import { LoginType } from "../../context/authContext";
+import { AxiosError } from "axios";
 const Login = () => {
   const { login } = useContext(AuthContext);
 
@@ -11,7 +12,7 @@ const Login = () => {
     password: "",
   } as LoginType);
 
-  const [err, setErr] = useState<string>("");
+  const [err, setErr] = useState<String>();
 
   const navigate = useNavigate();
   const inputChange = (e: React.FormEvent) => {
@@ -27,7 +28,8 @@ const Login = () => {
       await login(inputs);
       navigate("/");
     } catch (err) {
-      setErr(err.response.data);
+      const error = err as AxiosError;
+      setErr(String(error.response?.data));
     }
   };
   return (
