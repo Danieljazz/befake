@@ -1,7 +1,6 @@
 import { useContext, FC } from "react";
 import { useLocation } from "react-router-dom";
 import "./style.scss";
-import GolfCourseOutlinedIcon from "@mui/icons-material/GolfCourseOutlined";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Navbar from "./components/Navbar/Navbar";
