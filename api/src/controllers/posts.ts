@@ -56,3 +56,19 @@ export const deletePost = (req, res) => {
     });
   });
 };
+
+export const editPost = (req, res) => {
+  const accessToken = req.cookies.accessToken;
+  jwt.verify(accessToken, process.env.key, (err, userInfo) => {
+    if (err) return res.status(403).json("You can only update own posts");
+    const q = "UPDATE posts SET postContent = ?, postPhoto = ? WHERE id = ?";
+    db.query(
+      q,
+      [req.body.postContent, req.body.postPhoto, req.query.postId],
+      (err, data) => {
+        if (err) return res.status(500).json("Smth went wrong");
+        return res.status(200).json("Post has been updated successfully");
+      }
+    );
+  });
+};
