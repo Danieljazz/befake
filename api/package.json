@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist index.js",
   "scripts": {
-    "build": "npm install && npm tsc",
+    "build": "npm install && tsc",
     "start": "nodemon dist index.js"
   },
   "author": "",
