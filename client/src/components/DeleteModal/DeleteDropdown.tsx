@@ -9,8 +9,7 @@ type PostDropdownI = {
 const DeleteDropdown = ({ postId }: PostDropdownI) => {
   const clientQuery = useQueryClient();
   const deleteMutation = useMutation(
-    ({ postId }: PostDropdownI) =>
-      makeRequest.delete(`http://localhost:8080/api/v1/posts?postId=${postId}`),
+    ({ postId }: PostDropdownI) => makeRequest.delete(`posts?postId=${postId}`),
     {
       onSuccess: () => clientQuery.invalidateQueries(["posts"]),
     }

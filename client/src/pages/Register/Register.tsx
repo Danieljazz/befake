@@ -2,8 +2,8 @@ import "./register.scss";
 import { Link } from "react-router-dom";
 import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import indicator from "../../assets/indicator.gif";
+import { makeRequest } from "../../axiosRequest";
 type userData = {
   username: string;
   mail: string;
@@ -34,7 +34,7 @@ const Register: FC = () => {
       setNotMatch(false);
       const { repassword, ...others } = data;
       try {
-        await axios.post("http://localhost:8080/api/v1/auth/register", others);
+        await makeRequest.post("/auth/register", others);
         setError(false);
         setRegistered(true);
 
