@@ -16,7 +16,15 @@ app.use((req, res, next) => {
   });
   next();
 });
-app.use(cors({ origin: ["http://localhost:5173", "http://127.0.0.1:5173"] }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      "https://befake.danielsprojects.com.pl",
+    ],
+  })
+);
 app.use(cookieParser());
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/auth", authRoutes);
