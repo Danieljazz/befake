@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState, ReactNode, FC } from "react";
 import axios from "axios";
+import { makeRequest } from "../axiosRequest";
 type UserContextType = {
   id: number;
   name: string;
@@ -32,11 +33,9 @@ export const AuthContextProvider: FC<AuthContextProviderType> = ({
     JSON.parse(localStorage.getItem("user")!) || null
   );
   const login = async (inputs: LoginType) => {
-    const res = await axios.post(
-      "http://localhost:8080/api/v1/auth/login",
-      inputs,
-      { withCredentials: true }
-    );
+    const res = await makeRequest.post("/auth/login", inputs, {
+      withCredentials: true,
+    });
     const newUser: UserContextType = res.data;
     setUser(newUser);
   };
