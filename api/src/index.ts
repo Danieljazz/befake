@@ -24,6 +24,6 @@ app.use("/api/v1/posts", postsRoutes);
 app.use("/api/v1/comments", commentsRoutes);
 app.use("/api/v1/postlikes", likesRoutes);
 app.use("/api/v1/relationships", relationshipsRoutes);
-app.listen("8080", () => {
+app.listen("8080" || process.env.PORT, () => {
   console.log("backend run on port 8080");
 });
