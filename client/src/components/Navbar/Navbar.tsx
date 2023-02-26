@@ -5,13 +5,15 @@ import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DarkModeContext } from "../../context/DarkModeContext";
 import { AuthContext } from "../../context/authContext";
 import { Link } from "react-router-dom";
+import UserActionsModal from "../../components/UserActionsModal/UserActionsModal";
 const Navbar = () => {
   const { toggle } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
+  const [openUserModal, setOpenUserModal] = useState(false);
   return (
     <div className="navbar">
       <div className="left">
@@ -37,12 +39,20 @@ const Navbar = () => {
         {/* TODO: Add dropdown */}
         <NotificationsActiveOutlinedIcon sx={{ fontSize: "2rem" }} />
         <EmailOutlinedIcon sx={{ fontSize: "2rem" }} />
-        <Link to={`/profile/${user.id}`} style={{ textDecoration: "none" }}>
+        <div
+          style={{ cursor: "pointer" }}
+          onClick={() => setOpenUserModal((prev) => !prev)}
+        >
+          <AccountCircleOutlinedIcon sx={{ fontSize: "2rem" }} />
+        </div>
+        {/* <span>{`${user.name} ${user.surname}`}</span> */}
+        {openUserModal && <UserActionsModal />}
+        {/* <Link to={`/profile/${user.id}`} style={{ textDecoration: "none" }}>
           <div className="user">
             <AccountCircleOutlinedIcon sx={{ fontSize: "2rem" }} />
             <span>{`${user.name} ${user.surname}`}</span>
           </div>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

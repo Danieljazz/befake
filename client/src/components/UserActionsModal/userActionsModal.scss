@@ -1,0 +1,31 @@
+.user-actions-modal {
+  position: absolute;
+  right: 1%;
+  top: 81px;
+  width: 200px;
+  z-index: 3;
+  background: rgb(227, 228, 195);
+  border-radius: 20px 20px;
+  transition: all 0.5s ease-in;
+  ul {
+    padding: 10px 35px;
+    list-style: none;
+    text-align: center;
+    li {
+      &:first-child {
+        margin-bottom: 12px;
+      }
+      padding: 16px 0px;
+      font-size: 18px;
+      transition: all 0.2s ease-in;
+      border-radius: 10px 10px;
+      &:hover {
+        transform: scale(1.1);
+        background-color: #bdcab9;
+      }
+      &.logout {
+        cursor: pointer;
+      }
+    }
+  }
+}
