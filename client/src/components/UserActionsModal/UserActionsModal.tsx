@@ -1,16 +1,18 @@
 import { makeRequest } from "../../axiosRequest";
 import { AuthContext } from "../../context/authContext";
 import "./userActionsModal.scss";
-import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 const UserActionsModal = () => {
   const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const logout = () => {
-    setUser(null);
     makeRequest
       .post("/auth/logout")
-      .then(() => navigate("/login"))
+      .then(() => {
+        localStorage.removeItem("user");
+        navigate("/login");
+      })
       .catch((err) => console.log(err));
   };
 
