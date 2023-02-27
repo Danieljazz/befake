@@ -1,30 +1,50 @@
 @import "../../style.scss";
 .stories-bar {
-  height: 200px;
-  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   flex-direction: row;
-  gap: 1rem;
-  translate: 10px;
-  @include mobile {
-    margin-top: 30px;
-    translate: 200px;
-    height: 150px;
-  }
-  &:first-child::after {
-    font-size: 20px;
-    padding: 5px 10px;
-    color: aliceblue;
-    content: "+";
-    background-color: #4e50ca;
-    border-radius: 50%;
-    left: 8px;
-    bottom: 35px;
-    position: absolute;
+  position: relative;
+  width: 100%;
+  .stories {
+    height: 200px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    width: fit-content;
+    transition: all 0.6s ease-out;
     @include mobile {
-      font-size: 16px;
-      padding: 4px 8px;
+      margin-top: 30px;
+      translate: 200px;
+      height: 150px;
+    }
+    &:first-child::after {
+      font-size: 20px;
+      padding: 5px 10px;
+      color: aliceblue;
+      content: "+";
+      background-color: #4e50ca;
+      border-radius: 50%;
+      left: 8px;
+      bottom: 35px;
+      position: absolute;
+      @include mobile {
+        font-size: 16px;
+        padding: 4px 8px;
+      }
+    }
+  }
+  button {
+    &.right {
+      position: absolute;
+      right: 10px;
+    }
+    &.left {
+      position: absolute;
+      left: 13px;
+      z-index: 2;
     }
   }
 }
