@@ -39,12 +39,24 @@
   button {
     &.right {
       position: absolute;
-      right: 10px;
+      right: 14px;
+      border-radius: 50%;
+      width: 27px;
+      text-align: center;
+      color: #020d34;
+      border: none;
+      cursor: pointer;
     }
     &.left {
       position: absolute;
       left: 13px;
       z-index: 2;
+      border-radius: 50%;
+      width: 27px;
+      text-align: center;
+      color: #020d34;
+      border: none;
+      cursor: pointer;
     }
   }
 }

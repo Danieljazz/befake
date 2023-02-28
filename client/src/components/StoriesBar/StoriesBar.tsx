@@ -9,9 +9,11 @@ export const StoriesBar = () => {
   const [move, setMove] = useState<number>(1);
   const moveStories = (direction: string) => {
     if (direction === "right") {
-      setMove((prev) => (prev = prev + 1));
+      move > possibleMove
+        ? setMove((prev) => (prev = prev + 1))
+        : setMove(possibleMove);
     } else {
-      setMove((prev) => (prev = prev - 1));
+      move < 1 ? setMove((prev) => (prev = prev - 1)) : setMove(1);
     }
   };
   return (
@@ -54,13 +56,17 @@ export const StoriesBar = () => {
           name="Jane Doe"
           photo="https://images.pexels.com/photos/3533228/pexels-photo-3533228.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         />
-      </div>{" "}
-      <button className="left" onClick={() => moveStories("left")}>
-        <ArrowBackIosIcon />
-      </button>
-      <button className="right" onClick={() => moveStories("right")}>
-        <ArrowForwardIosIcon />
-      </button>
+      </div>
+      {move > 1 && (
+        <button className="left" onClick={() => moveStories("left")}>
+          <ArrowBackIosIcon />
+        </button>
+      )}
+      {possibleMove > 1 && move < possibleMove && (
+        <button className="right" onClick={() => moveStories("right")}>
+          <ArrowForwardIosIcon />
+        </button>
+      )}
     </div>
   );
 };

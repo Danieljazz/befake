@@ -26,7 +26,10 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(inputs);
-      navigate("/");
+      const interval = setInterval(() => {
+        navigate("/");
+      }, 3000);
+      return () => clearInterval(interval);
     } catch (err) {
       const error = err as AxiosError;
       setErr(String(error.response?.data));
