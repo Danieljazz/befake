@@ -5,7 +5,9 @@ export const getStories = (req, res) => {
   const token = req.cookies.accessToken;
   jwt.verify(token, process.env.key, (err, userInfo) => {
     if (err) return res.status(403).json(err);
-    const q = "SELECT * FROM stories";
+    const q = `SELECT s.*, u.id AS storyUserId, name, 
+      surname FROM stories AS s JOIN users AS u
+      ON(s.storyUserId == u.id)`;
     db.query(q, (err, data) => {
       if (err) return res.status(500).json(err);
       if (data.length > 0) {
