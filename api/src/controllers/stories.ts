@@ -5,9 +5,9 @@ export const getStories = (req, res) => {
   const token = req.cookies.accessToken;
   jwt.verify(token, process.env.key, (err, userInfo) => {
     if (err) return res.status(403).json(err);
-    const q = `SELECT s.*, u.id AS storyUserId, name, 
+    const q = `SELECT s.*, u.id AS userId, name, 
       surname FROM stories AS s JOIN users AS u
-      ON(s.storyUserId == u.id) LEFT JOIN relationships as r
+      ON(s.storyUserId == u.id) LEFT JOIN relationships AS r
       ON(s.storyUserId == u.followedUserId) WHERE r.followingUserId = ? OR s.storyUserId = ?
       ORDER BY createdAt DESC`;
     db.query(q, [userInfo.id, userInfo.id], (err, data) => {
