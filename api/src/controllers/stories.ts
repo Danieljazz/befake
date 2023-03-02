@@ -7,8 +7,10 @@ export const getStories = (req, res) => {
     if (err) return res.status(403).json(err);
     const q = `SELECT s.*, u.id AS storyUserId, name, 
       surname FROM stories AS s JOIN users AS u
-      ON(s.storyUserId == u.id)`;
-    db.query(q, (err, data) => {
+      ON(s.storyUserId == u.id) LEFT JOIN relationships as r
+      ON(s.storyUserId == u.followedUserId) WHERE r.followingUserId = ? OR s.storyUserId = ?
+      ORDER BY createdAt DESC`;
+    db.query(q, [userInfo.id, userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
       if (data.length > 0) {
         return res.status(200).json(data);
