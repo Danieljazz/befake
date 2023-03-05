@@ -15,16 +15,25 @@
     .left {
       flex: 1;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-around;
       font-size: 2rem;
       & svg {
         color: themed("textColor");
       }
+      input {
+        border: 1px solid #000;
+        outline: none;
+        background-color: themed("postBackground");
+        font-size: 20px;
+        border-radius: 12px 12px;
+        padding: 2px 10px;
+      }
       @include mobile {
         justify-content: center;
         & > svg:first-child,
-        & > svg:last-child {
+        & > svg:last-child,
+        & > input {
           display: none;
         }
         margin-left: 20px;

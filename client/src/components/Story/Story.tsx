@@ -1,21 +1,26 @@
 import "./story.scss";
 
-type StoryProps = {
+export type StoryProps = {
+  id: number;
+  storyPhoto: string;
+  storyUserId?: number;
+  createdAt?: Date;
   name: string;
-  photo: string;
+  surname: string;
 };
 
-export const Story = ({ name, photo }: StoryProps) => {
+export const Story = ({ name, surname, storyPhoto, id }: StoryProps) => {
   return (
     <div
+      key={id}
       className="story"
       style={{
-        backgroundImage: `url(${photo})`,
+        backgroundImage: `url(${storyPhoto})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <span>{name}</span>
+      <span>{`${name} ${surname}`}</span>
     </div>
   );
 };

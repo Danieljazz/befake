@@ -1,19 +1,32 @@
 import "./navbar.scss";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import { useContext, useState } from "react";
 import { DarkModeContext } from "../../context/DarkModeContext";
-import { AuthContext } from "../../context/authContext";
 import { Link } from "react-router-dom";
 import UserActionsModal from "../../components/UserActionsModal/UserActionsModal";
+import { useQuery } from "@tanstack/react-query";
+import { makeRequest } from "../../axiosRequest";
 const Navbar = () => {
   const { toggle } = useContext(DarkModeContext);
-  const { user } = useContext(AuthContext);
   const [openUserModal, setOpenUserModal] = useState(false);
+  const [search, setSearch] = useState<String>("");
+  const { data, isError, isLoading, refetch } = useQuery(["searchUser"], () =>
+    makeRequest.get(`/users/search_user?searchUser=${search}`)
+  );
+
+  const searchUser = (e: React.FormEvent) => {
+    const target = e.target as HTMLInputElement;
+    setSearch(target.value);
+    refetch();
+    if (target.value.length > 1) {
+      console.log(data);
+    }
+  };
+
   return (
     <div className="navbar">
       <div className="left">
@@ -28,7 +41,7 @@ const Navbar = () => {
           onClick={toggle}
           style={{ cursor: "pointer" }}
         />
-        <WidgetsOutlinedIcon sx={{ fontSize: "2rem" }} />
+        <input placeholder="Find new friends here " onChange={searchUser} />
       </div>
       <div className="middle">
         <Link to={"/"} style={{ textDecoration: "none" }}>

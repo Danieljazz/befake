@@ -2,9 +2,17 @@ import "./storiesbar.scss";
 import { Story } from "../Story/Story";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { makeRequest } from "../../axiosRequest";
+import { StoryProps } from "../Story/Story";
 export const StoriesBar = () => {
-  let storiesLen = 9;
+  //TODO: Add mutation
+  const { data, isLoading, isError } = useQuery(["stories"], () =>
+    makeRequest.get("/stories/").then((res) => res.data)
+  );
+
+  let storiesLen = data ? data?.length : 7;
   let possibleMove = storiesLen - 7;
   const [move, setMove] = useState<number>(1);
   const moveStories = (direction: string) => {
@@ -24,38 +32,14 @@ export const StoriesBar = () => {
           transform: `translateX(${160 - 155 * move}px)`,
         }}
       >
-        <Story
-          name="Jane Doe"
-          photo="https://images.pexels.com/photos/3533228/pexels-photo-3533228.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <Story
-          name="Jane Doe"
-          photo="https://images.pexels.com/photos/3533228/pexels-photo-3533228.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <Story
-          name="Jane Doe"
-          photo="https://images.pexels.com/photos/3533228/pexels-photo-3533228.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <Story
-          name="Jane Doe"
-          photo="https://images.pexels.com/photos/3533228/pexels-photo-3533228.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <Story
-          name="Jane Doe"
-          photo="https://images.pexels.com/photos/3533228/pexels-photo-3533228.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />{" "}
-        <Story
-          name="Jane Doe"
-          photo="https://images.pexels.com/photos/3533228/pexels-photo-3533228.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <Story
-          name="Jane Doe"
-          photo="https://images.pexels.com/photos/3533228/pexels-photo-3533228.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <Story
-          name="Jane Doe"
-          photo="https://images.pexels.com/photos/3533228/pexels-photo-3533228.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
+        {data?.map((story: StoryProps) => (
+          <Story
+            id={story.id}
+            name={story.name}
+            surname={story.surname}
+            storyPhoto={story.storyPhoto}
+          />
+        ))}
       </div>
       {move > 1 && (
         <button className="left" onClick={() => moveStories("left")}>

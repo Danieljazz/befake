@@ -37,3 +37,13 @@ export const updateUser = (req, res) => {
     );
   });
 };
+
+export const searchUser = (req, res) => {
+  const searchQuery = req.query.searchUser;
+  const q = `SELECT name, surname, id FROM users WHERE name 
+             LIKE '%${searchQuery}%' OR surname LIKE '%${searchQuery}%' LIMIT 10`;
+  db.query(q, (err, data) => {
+    if (err) return res.status(500).json(err);
+    if (data) return res.status(200).json(data);
+  });
+};
