@@ -20,10 +20,14 @@ const Navbar = () => {
 
   const searchUser = (e: React.FormEvent) => {
     const target = e.target as HTMLInputElement;
-    setSearch(target.value);
-    refetch();
+
     if (target.value.length > 1) {
       console.log(data);
+      setSearch(target.value);
+      refetch();
+    }
+    if (target.value.length === 0) {
+      setSearch("");
     }
   };
 
