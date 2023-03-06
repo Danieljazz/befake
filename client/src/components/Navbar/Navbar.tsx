@@ -14,7 +14,7 @@ const Navbar = () => {
   const { toggle } = useContext(DarkModeContext);
   const [openUserModal, setOpenUserModal] = useState(false);
   const [search, setSearch] = useState<String>("");
-  //TODO: Do not fetch all of the records
+  const [searchVisible, setSearchVisible] = useState("none");
   const { data, isError, isLoading, refetch } = useQuery(["searchUser"], () =>
     makeRequest.get(`/users/search_user${search}`).then((res) => res.data)
   );
@@ -48,11 +48,25 @@ const Navbar = () => {
           onClick={toggle}
           style={{ cursor: "pointer" }}
         />
-        <input placeholder="Find new friends here " onChange={searchUser} />
-        <ul className="search-result">
-          {" "}
+        <input
+          placeholder="Find new friends here "
+          onFocus={() => setSearchVisible("block")}
+          onChange={searchUser}
+        />
+        <ul
+          style={{ display: `${searchVisible}` }}
+          className="search-result"
+          onBlur={() => {
+            setSearchVisible("none");
+            setSearch("");
+          }}
+        >
           {data?.map((user) => (
-            <li>{user.name}</li>
+            <li>
+              <Link
+                to={`/profile/${user.id}`}
+              >{`${user.name} ${user.surname}`}</Link>
+            </li>
           ))}
         </ul>
       </div>
@@ -62,7 +76,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="right">
-        {/* TODO: Add dropdown */}
+        {/* TODO: Add modals */}
         <NotificationsActiveOutlinedIcon sx={{ fontSize: "2rem" }} />
         <EmailOutlinedIcon sx={{ fontSize: "2rem" }} />
         <div
