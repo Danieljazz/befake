@@ -4,7 +4,7 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../../context/DarkModeContext";
 import { Link } from "react-router-dom";
 import UserActionsModal from "../../components/UserActionsModal/UserActionsModal";
@@ -14,21 +14,25 @@ const Navbar = () => {
   const { toggle } = useContext(DarkModeContext);
   const [openUserModal, setOpenUserModal] = useState(false);
   const [search, setSearch] = useState<String>("");
+  //TODO: Do not fetch all of the records
   const { data, isError, isLoading, refetch } = useQuery(["searchUser"], () =>
-    makeRequest.get(`/users/search_user?searchUser=${search}`)
+    makeRequest.get(`/users/search_user${search}`).then((res) => res.data)
   );
 
-  const searchUser = (e: React.FormEvent) => {
+  const searchUser = async (e: React.FormEvent) => {
     const target = e.target as HTMLInputElement;
-    setSearch(target.value);
-    if (target.value.length > 1) {
-      console.log(data);
-      refetch();
+    if (target.value.length > 2) {
+      await setSearch(`?searchUser=${target.value}`);
     }
+    console.log(data);
     if (target.value.length === 0) {
-      setSearch("");
+      await setSearch("");
     }
   };
+  useEffect(() => {
+    refetch();
+    console.log(data);
+  }, [search]);
 
   return (
     <div className="navbar">
@@ -45,6 +49,12 @@ const Navbar = () => {
           style={{ cursor: "pointer" }}
         />
         <input placeholder="Find new friends here " onChange={searchUser} />
+        <ul className="search-result">
+          {" "}
+          {data?.map((user) => (
+            <li>{user.name}</li>
+          ))}
+        </ul>
       </div>
       <div className="middle">
         <Link to={"/"} style={{ textDecoration: "none" }}>
