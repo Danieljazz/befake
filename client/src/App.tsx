@@ -8,6 +8,7 @@ import Rightbar from "./components/Rightbar/Rightbar";
 import Leftbar from "./components/Leftbar/Leftbar";
 import Home from "./pages/Home/Home";
 import Profile from "./pages/Profile/Profile";
+import Chat from "./pages/Chat/Chat";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -26,6 +27,7 @@ const App = () => {
   const { darkMode } = useContext(DarkModeContext);
   const Layout: FC = () => {
     const location = useLocation();
+    console.log(location.pathname.split);
     return (
       <QueryClientProvider client={queryClient}>
         <div className={`theme-${darkMode ? "dark" : "light"}`}>
@@ -76,6 +78,17 @@ const App = () => {
     {
       path: "/register",
       element: <Register />,
+    },
+    {
+      path: "/chat/:id",
+      element: (
+        <QueryClientProvider client={queryClient}>
+          <div className={`theme-${darkMode ? "dark" : "light"}`}>
+            <Navbar />
+            <Chat />
+          </div>
+        </QueryClientProvider>
+      ),
     },
   ]);
 

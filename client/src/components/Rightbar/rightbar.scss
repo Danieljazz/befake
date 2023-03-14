@@ -2,6 +2,7 @@
 
 .rightbar {
   @include themify($themes) {
+    display: block;
     background: themed("background");
     @media (max-width: 900px) {
       display: none;
