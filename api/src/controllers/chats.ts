@@ -13,6 +13,5 @@ export const userMessages = (req, res) => {
       return res.status(200).json(data);
     });
   });
-  return res.status(200).json(param);
 };
 export const createMessage = (req, res) => {};
