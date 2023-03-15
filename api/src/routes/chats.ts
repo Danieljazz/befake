@@ -2,7 +2,7 @@ import express from "express";
 import { userMessages, createMessage } from "../controllers/chats.js";
 const router = express.Router();
 
-router.get("/:id", userMessages);
-router.post("/:id", createMessage);
+router.get("/:reciverId", userMessages);
+router.post("/:reciverId", createMessage);
 
 export default router;
