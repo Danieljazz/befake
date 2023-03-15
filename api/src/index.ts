@@ -6,6 +6,7 @@ import commentsRoutes from "./routes/comments.js";
 import likesRoutes from "./routes/likes.js";
 import relationshipsRoutes from "./routes/relationships.js";
 import storiesRoutes from "./routes/stories.js";
+import chatsRoutes from "./routes/chats.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -35,6 +36,7 @@ app.use("/api/v1/comments", commentsRoutes);
 app.use("/api/v1/postlikes", likesRoutes);
 app.use("/api/v1/relationships", relationshipsRoutes);
 app.use("/api/v1/stories", storiesRoutes);
+app.use("/api/v1/chats", chatsRoutes);
 app.listen("8080" || process.env.PORT, () => {
   console.log(`Backend runs on port ${process.env.PORT}`);
 });
