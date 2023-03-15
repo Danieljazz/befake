@@ -9,7 +9,7 @@ export const userMessages = (req, res) => {
     const q = `SELECT c.*, u.id AS reciverId, name, surname, 
 profilePhoto FROM chats AS c JOIN users AS u 
 ON(u.id = c.reciverId) WHERE 
-senderId = ? AND reciverId = ? 
+c.senderId = ? AND c.reciverId = ? 
 ORDER BY c.createdAt DESC`;
     //   `SELECT c.*, u.id AS userId, name, surname, profilePhoto FROM chats AS c JOIN users as u ON(user.id = reciverId) `
     db.query(q, [senderId.id, reciverId, reciverId], (error, data) => {
