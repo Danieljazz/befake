@@ -1,4 +1,5 @@
 import "./chat.scss";
+import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 const Chat = () => {
   return (
     <div className="chat-page">
@@ -140,10 +141,126 @@ const Chat = () => {
         </ul>
       </div>
       <div className="messages">
-        <div className="msg-header"></div>
-        <div className="msg-content"></div>
+        <div className="msg-container-header">
+          <div className="msg-receiver">
+            <img
+              src="https://images.pexels.com/photos/2690323/pexels-photo-2690323.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt=""
+              className="profile-photo"
+            />
+            <div className="receiver-info">
+              <h4>Jannet Doed</h4>
+              <span>Available</span>
+            </div>
+          </div>
+        </div>
+        <div className="msg-container-content">
+          <div className="msg" style={{ justifyContent: "flex-end" }}>
+            <div className="msg-content">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
+              facilis dolore nemo doloremque blanditiis sapiente, unde sit
+              accusantium voluptatum consectetur beatae vero. Et.
+            </div>
+          </div>
+          <div className="msg" style={{ justifyContent: "flex-end" }}>
+            <div className="msg-content">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
+              facilis dolore nemo doloremque blanditiis sapiente, unde sit
+              accusantium voluptatum consectetur beatae vero. Et.
+            </div>
+          </div>
+          <div className="msg" style={{ justifyContent: "flex-end" }}>
+            <div className="msg-content">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
+              facilis dolore nemo doloremque blanditiis sapiente, unde sit
+              accusantium voluptatum consectetur beatae vero. Et.
+            </div>
+          </div>
+          <div className="msg">
+            <img
+              src="https://images.pexels.com/photos/2690323/pexels-photo-2690323.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt=""
+              className="profile-photo"
+            />
+            <div className="msg-content">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
+              facilis dolore nemo doloremque blanditiis sapiente, unde sit
+              accusantium voluptatum consectetur beatae vero. Et.
+            </div>
+          </div>
+          <div className="msg">
+            <img
+              src="https://images.pexels.com/photos/2690323/pexels-photo-2690323.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt=""
+              className="profile-photo"
+            />
+            <div className="msg-content">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
+              facilis dolore nemo doloremque blanditiis sapiente, unde sit
+              accusantium voluptatum consectetur beatae vero. Et.
+            </div>
+          </div>
+          <div className="msg" style={{ justifyContent: "flex-end" }}>
+            <div className="msg-content">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
+              facilis dolore nemo doloremque blanditiis sapiente, unde sit
+              accusantium voluptatum consectetur beatae vero. Et.
+            </div>
+          </div>
+          <div className="msg">
+            <img
+              src="https://images.pexels.com/photos/2690323/pexels-photo-2690323.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt=""
+              className="profile-photo"
+            />
+            <div className="msg-content">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
+              facilis dolore nemo doloremque blanditiis sapiente, unde sit
+              accusantium voluptatum consectetur beatae vero. Et.
+            </div>
+          </div>
+          <div className="msg">
+            <img
+              src="https://images.pexels.com/photos/2690323/pexels-photo-2690323.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt=""
+              className="profile-photo"
+            />
+            <div className="msg-content">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
+              facilis dolore nemo doloremque blanditiis sapiente, unde sit
+              accusantium voluptatum consectetur beatae vero. Et.
+            </div>
+          </div>
+          <div className="msg">
+            <img
+              src="https://images.pexels.com/photos/2690323/pexels-photo-2690323.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt=""
+              className="profile-photo"
+            />
+            <div className="msg-content">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
+              facilis dolore nemo doloremque blanditiis sapiente, unde sit
+              accusantium voluptatum consectetur beatae vero. Et.
+            </div>
+          </div>
+          <div className="msg">
+            <img
+              src="https://images.pexels.com/photos/2690323/pexels-photo-2690323.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt=""
+              className="profile-photo"
+            />
+            <div className="msg-content">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
+              facilis dolore nemo doloremque blanditiis sapiente, unde sit
+              accusantium voluptatum consectetur beatae vero. Et.
+            </div>
+          </div>
+        </div>
         <div className="new-msg">
-          <textarea />
+          <input />
+          <button>
+            <SendOutlinedIcon />
+          </button>
         </div>
       </div>
     </div>
