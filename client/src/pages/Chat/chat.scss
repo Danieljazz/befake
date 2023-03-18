@@ -2,55 +2,7 @@
   display: flex;
   height: 90vh;
   overflow: hidden;
-  .chats {
-    width: 25vw;
-    padding: 20px 20px;
-    background-color: rgba(196, 159, 198, 0.6);
-    min-height: 100vh;
-    overflow-y: auto;
-    ul {
-      list-style: none;
-      padding: 0;
-      li {
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        gap: 2rem;
-        background-color: rgba(178, 138, 180, 0.6);
-        padding: 12px 12px;
-        border-radius: 18px 18px;
-        transition: all 0.3s ease-in;
-        position: relative;
-        margin-bottom: 20px;
-        cursor: pointer;
-        &:hover {
-          background-color: rgba(159, 121, 161, 0.6);
-        }
-        img {
-          height: 70px;
-          border-radius: 50%;
-        }
-        .message-content {
-          h4 {
-            margin: 10px 0px;
-          }
-          span {
-            font-size: 14px;
-            color: rgb(59, 62, 63);
-            font-style: italic;
-          }
-        }
-        .last-msg-date {
-          font-size: 12px;
-          color: rgb(63, 67, 69);
-          font-style: italic;
-          margin-top: 40px;
-          position: absolute;
-          right: 10px;
-        }
-      }
-    }
-  }
+
   .messages {
     width: 75vw;
     padding: 20px 20px;
@@ -82,26 +34,6 @@
       display: flex;
       flex-direction: column-reverse;
       overflow-y: auto;
-      .msg {
-        margin: 20px 20px;
-        gap: 1rem;
-        display: flex;
-        /* align-content: center; */
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        .msg-content {
-          inline-size: 50%;
-          float: right;
-          padding: 10px 10px;
-          background-color: #f59be85e;
-          border-radius: 30px 30px;
-        }
-        img {
-          height: 30px;
-          border-radius: 50%;
-        }
-      }
     }
     .new-msg {
       padding: 10px 10px;
