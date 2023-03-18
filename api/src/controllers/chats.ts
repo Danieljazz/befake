@@ -35,7 +35,7 @@ export const userRecentMessages = (req, res) => {
   const accessToken = req.cookies.accessToken;
   jwt.verify(accessToken, process.env.key, (err, sender) => {
     if (err) return res.status(403).json("wrong credentials");
-    const q = `SELECT c.receiverId, c.message, c.createdAt FROM chats AS c INNER JOIN ( SELECT receiverId, max(createdAt) as MaxDate FROM chats GROUP BY receiverId ) AS tm on c.senderId = ? and c.createdAt = tm.MaxDate ORDER BY createdAt DESC`;
+    const q = `SELECT c.receiverId, c.message, c.createdAt, u.name, u.surname, u.profilePhoto FROM chats AS c INNER JOIN ( SELECT receiverId, max(createdAt) as MaxDate FROM chats GROUP BY receiverId ) AS tm on c.senderId = ? and c.createdAt = tm.MaxDate JOIN users AS u ON(u.id=c.receiverId) ORDER BY createdAt DESC`;
     db.query(q, [sender.id], (err, data) => {
       if (err) return res.status(500).json("Server error");
       return res.status(200).json(data);

@@ -6,7 +6,8 @@
   justify-content: flex-start;
   align-items: center;
   .msg-content {
-    inline-size: 50%;
+    max-width: 50%;
+    overflow-wrap: break-word;
     float: right;
     padding: 10px 10px;
     background-color: #f59be85e;

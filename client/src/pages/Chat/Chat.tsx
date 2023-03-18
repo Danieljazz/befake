@@ -12,7 +12,6 @@ const Chat = () => {
   const { data, error, isLoading } = useQuery(["chat"], () =>
     makeRequest.get("/chats/1").then((res) => res.data)
   );
-  console.log(data);
 
   return (
     <div className="chat-page">
@@ -21,7 +20,7 @@ const Chat = () => {
         <div className="msg-container-header">
           <div className="msg-receiver">
             <img
-              src="https://images.pexels.com/photos/2690323/pexels-photo-2690323.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              src={!isLoading && data[0]?.profilePhoto}
               alt=""
               className="profile-photo"
             />
