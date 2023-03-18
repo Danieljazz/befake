@@ -37,7 +37,7 @@ const Chat = () => {
               <ChatMessage
                 key={message.id}
                 profilePhoto={message.profilePhoto}
-                userId={message.senderId}
+                senderId={message.senderId}
                 message={message.message}
               />
             ))}

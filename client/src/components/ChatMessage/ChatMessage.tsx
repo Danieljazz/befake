@@ -4,19 +4,21 @@ import { AuthContext } from "../../context/authContext";
 
 type Message = {
   profilePhoto: string;
-  userId: number;
+  senderId: number;
   message: string;
 };
 
-const ChatMessage = ({ profilePhoto, userId, message }: Message) => {
+const ChatMessage = ({ profilePhoto, senderId, message }: Message) => {
   const { user } = useContext(AuthContext);
 
   return (
     <div
       className="msg"
-      style={{ justifyContent: user.id === userId ? "flex-end" : "flex-start" }}
+      style={{
+        justifyContent: user.id === senderId ? "flex-end" : "flex-start",
+      }}
     >
-      {user.id !== userId && (
+      {user.id !== senderId && (
         <img src={profilePhoto} alt="" className="profile-photo" />
       )}
       <div className="msg-content">{message}</div>
