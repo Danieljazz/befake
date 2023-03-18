@@ -6,11 +6,15 @@ export const userMessages = (req, res) => {
   const accessToken = req.cookies.accessToken;
   jwt.verify(accessToken, process.env.key, (error, senderId) => {
     if (error) return res.status(403).json("Wrong credentials");
-    const q = `SELECT c.*, u.id AS receiverId, name, surname, profilePhoto FROM chats AS c JOIN users AS u ON(u.id = c.senderId) WHERE (c.senderId = 8 AND c.receiverId = 1) OR (c.senderId = 1 AND c.receiverId = 8) ORDER BY c.createdAt DESC`;
-    db.query(q, [senderId.id, receiverId], (error, data) => {
-      if (error) return res.status(500).json(error);
-      return res.status(200).json(data);
-    });
+    const q = `SELECT c.*, u.id AS receiverId, name, surname, profilePhoto FROM chats AS c JOIN users AS u ON(u.id = c.senderId) WHERE (c.senderId = ? AND c.receiverId = ?) OR (c.senderId = ? AND c.receiverId = ?) ORDER BY c.createdAt DESC`;
+    db.query(
+      q,
+      [senderId.id, receiverId, receiverId, senderId.id],
+      (error, data) => {
+        if (error) return res.status(500).json(error);
+        return res.status(200).json(data);
+      }
+    );
   });
 };
 export const createMessage = (req, res) => {
