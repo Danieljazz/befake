@@ -80,7 +80,7 @@ const App = () => {
       element: <Register />,
     },
     {
-      path: "/chat/:id",
+      path: "/chat/:receiverId",
       element: (
         <QueryClientProvider client={queryClient}>
           <div className={`theme-${darkMode ? "dark" : "light"}`}>

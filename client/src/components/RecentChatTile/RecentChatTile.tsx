@@ -1,5 +1,5 @@
 import moment from "moment";
-import "./userChat.scss";
+import "./recentChatTile.scss";
 type Chat = {
   profilePhoto: string;
   name: string;
@@ -7,7 +7,7 @@ type Chat = {
   message: string;
   createdAt: Date;
 };
-const UserChat = ({
+const RecentChatTile = ({
   profilePhoto,
   name,
   surname,
@@ -25,4 +25,4 @@ const UserChat = ({
     </li>
   );
 };
-export default UserChat;
+export default RecentChatTile;
