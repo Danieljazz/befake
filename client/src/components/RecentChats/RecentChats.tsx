@@ -3,6 +3,16 @@ import RecentChatTile from "../RecentChatTile/RecentChatTile";
 import "./recentChats.scss";
 import { makeRequest } from "../../axiosRequest";
 import { Link } from "react-router-dom";
+import { UserContextType } from "../../context/authContext";
+
+type RecentChat = {
+  receiverId: number;
+  profilePhoto: string;
+  name: string;
+  surname: string;
+  message: string;
+  createdAt: Date;
+};
 
 const RecentChats = () => {
   const { data, isLoading, error } = useQuery(["recentChats"], () =>
@@ -13,17 +23,17 @@ const RecentChats = () => {
       <h1>Chats</h1>
       <ul className="latest-chats">
         {data &&
-          data?.map((user) => (
+          data?.map((recentChat: RecentChat) => (
             <Link
-              to={`/chat/${user.receiverId}`}
+              to={`/chat/${recentChat.receiverId}`}
               style={{ textDecoration: "none" }}
             >
               <RecentChatTile
-                profilePhoto={user.profilePhoto}
-                name={user.name}
-                surname={user.surname}
-                message={user.message}
-                createdAt={user.createdAt}
+                profilePhoto={recentChat.profilePhoto}
+                name={recentChat.name}
+                surname={recentChat.surname}
+                message={recentChat.message}
+                createdAt={recentChat.createdAt}
               />
             </Link>
           ))}

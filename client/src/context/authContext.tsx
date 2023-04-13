@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState, ReactNode, FC } from "react";
 import axios from "axios";
 import { makeRequest } from "../axiosRequest";
-type UserContextType = {
+export type UserContextType = {
   id: number;
   name: string;
   surname: string;

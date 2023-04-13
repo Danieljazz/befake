@@ -9,8 +9,24 @@ import storiesRoutes from "./routes/stories.js";
 import chatsRoutes from "./routes/chats.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 const app = express();
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, { cors: { origin: "*" } });
+
+const activeUsers = [];
+
+io.on("connection", (socket) => {
+  console.log("new user active");
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
 app.use(express.json());
 app.use((req, res, next) => {
   res.header({
@@ -37,6 +53,13 @@ app.use("/api/v1/postlikes", likesRoutes);
 app.use("/api/v1/relationships", relationshipsRoutes);
 app.use("/api/v1/stories", storiesRoutes);
 app.use("/api/v1/chats", chatsRoutes);
-app.listen("8080" || process.env.PORT, () => {
-  console.log(`Backend runs on port ${process.env.PORT}`);
+
+app.set("port", "8080" || process.env.PORT);
+
+httpServer.listen(app.get("port"), function () {
+  var port = httpServer.address()!.port;
+  console.log("Running on : ", port);
 });
+// app.listen("8080" || process.env.PORT, () => {
+//   console.log(`Backend runs on port ${process.env.PORT}`);
+// });

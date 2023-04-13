@@ -6,10 +6,27 @@ import { useLocation, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axiosRequest";
 import { useEffect, useState } from "react";
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://127.0.0.1:8080";
+
+type ChatMessage = {
+  message: string;
+  id: number;
+  senderId: number;
+  profilePhoto: string;
+  newMessage?: string;
+};
+
 const Chat = () => {
+  useEffect(() => {
+    const socket = socketIOClient(ENDPOINT);
+    console.log(socket);
+    console.log(ENDPOINT);
+  }, []);
+
   const { receiverId } = useParams();
   const queryClient = useQueryClient();
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState<ChatMessage["message"]>("");
   const { data, error, isLoading, refetch } = useQuery(["chat"], () =>
     makeRequest.get(`/chats/${receiverId}`).then((res) => res.data)
   );
@@ -56,7 +73,7 @@ const Chat = () => {
         </div>
         <div className="msg-container-content">
           {data &&
-            data?.map((message) => (
+            data?.map((message: ChatMessage) => (
               <ChatMessage
                 key={message.id}
                 profilePhoto={message.profilePhoto}
