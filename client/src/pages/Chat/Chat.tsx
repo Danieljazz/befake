@@ -5,8 +5,9 @@ import RecentChats from "../../components/RecentChats/RecentChats";
 import { useLocation, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axiosRequest";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
+import { AuthContext } from "../../context/authContext";
 const ENDPOINT = "http://127.0.0.1:8080";
 
 type ChatMessage = {
@@ -18,10 +19,17 @@ type ChatMessage = {
 };
 
 const Chat = () => {
+  const { user } = useContext(AuthContext);
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
-    console.log(socket);
-    console.log(ENDPOINT);
+    socket.emit("addActiveUser", {
+      profileId: user.id,
+    });
+    socket.on("getUsers", (activeUsers) => {
+      console.log(activeUsers);
+    });
+    //console.log(socket);
+    //console.log(ENDPOINT);
   }, []);
 
   const { receiverId } = useParams();
@@ -51,7 +59,7 @@ const Chat = () => {
     refetch();
     refetchProfile();
   }, [receiverId]);
-  console.log(receiverProfile);
+  //console.log(receiverProfile);
   return (
     <div className="chat-page">
       <div>

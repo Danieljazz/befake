@@ -19,11 +19,30 @@ const io = new Server(httpServer, { cors: { origin: "*" } });
 
 const activeUsers = [];
 
+//SOCKET FUNCTIONS:
+const addUser = (profileId, socketId) => {
+  !activeUsers.some((user) => user.profileId == profileId) &&
+    activeUsers.push({ profileId, socketId });
+};
+
+const myOnlineFriends = (friends: Array<number>) => {
+  return activeUsers.filter((user) => friends.includes(user.userId));
+};
+
 io.on("connection", (socket) => {
   console.log("new user active");
+  socket.on("addActiveUser", (profileId) => {
+    addUser(profileId, socket.id);
+    io.emit("getUsers", activeUsers);
+  });
+
+  socket.on("areMyFriendsOnline", (friends: Array<number>) => {
+    let activeFriends = myOnlineFriends(friends);
+  });
 
   socket.on("disconnect", () => {
     console.log("User disconnected");
+    activeUsers.filter((userId) => userId !== userId);
   });
 });
 
