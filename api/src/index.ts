@@ -17,32 +17,37 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, { cors: { origin: "*" } });
 
-const activeUsers = [];
+let activeUsers = [];
 
 //SOCKET FUNCTIONS:
 const addUser = (profileId, socketId) => {
-  !activeUsers.some((user) => user.profileId == profileId) &&
+  !activeUsers.some((user) => user.profileId === profileId) &&
     activeUsers.push({ profileId, socketId });
 };
 
 const myOnlineFriends = (friends: Array<number>) => {
-  return activeUsers.filter((user) => friends.includes(user.userId));
+  let activeFriends = activeUsers.filter((user) =>
+    friends.includes(user.profileId)
+  );
+  let activeFriendsArray = activeFriends.map((user) => user.profileId);
+  return activeFriendsArray;
 };
 
 io.on("connection", (socket) => {
   console.log("new user active");
   socket.on("addActiveUser", (profileId) => {
     addUser(profileId, socket.id);
-    io.emit("getUsers", activeUsers);
+    //io.emit("getUsers", activeUsers);
   });
 
   socket.on("areMyFriendsOnline", (friends: Array<number>) => {
     let activeFriends = myOnlineFriends(friends);
+    io.emit("areMyFriendsOnlineResponse", activeFriends);
   });
 
   socket.on("disconnect", () => {
     console.log("User disconnected");
-    activeUsers.filter((userId) => userId !== userId);
+    activeUsers = activeUsers.filter((user) => user.socketId !== socket.id);
   });
 });
 

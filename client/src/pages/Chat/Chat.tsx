@@ -8,7 +8,7 @@ import { makeRequest } from "../../axiosRequest";
 import { useContext, useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { AuthContext } from "../../context/authContext";
-const ENDPOINT = "http://127.0.0.1:8080";
+import { useRef } from "react";
 
 type ChatMessage = {
   message: string;
@@ -19,17 +19,34 @@ type ChatMessage = {
 };
 
 const Chat = () => {
+  const ENDPOINT = "http://127.0.0.1:8080";
+  const socket = useRef(socketIOClient(ENDPOINT));
   const { user } = useContext(AuthContext);
+  const [userFriends, setUserFriends] = useState([]);
+  const [onlineFriends, setOnlineFriends] = useState([]);
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT);
-    socket.emit("addActiveUser", {
-      profileId: user.id,
+    socket.current.emit("addActiveUser", user.id);
+    makeRequest
+      .get(`/relationships?userId=${user.id}`)
+      .then((res) => setUserFriends(res.data));
+  }, []);
+
+  const getOnlineFriends = () => {
+    socket.current.emit("areMyFriendsOnline", userFriends);
+    socket.current.on("areMyFriendsOnlineResponse", (activeUsers) => {
+      setOnlineFriends(activeUsers);
     });
-    socket.on("getUsers", (activeUsers) => {
-      console.log(activeUsers);
-    });
-    //console.log(socket);
-    //console.log(ENDPOINT);
+    console.log("hi From interval", onlineFriends);
+  };
+
+  useEffect(() => {
+    getOnlineFriends();
+  }, [socket, userFriends]);
+
+  useEffect(() => {
+    const interval = setInterval(() => getOnlineFriends(), 60000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const { receiverId } = useParams();
@@ -59,11 +76,10 @@ const Chat = () => {
     refetch();
     refetchProfile();
   }, [receiverId]);
-  //console.log(receiverProfile);
   return (
     <div className="chat-page">
       <div>
-        <RecentChats />
+        <RecentChats onlineFriends={onlineFriends} />
       </div>
       <div className="messages">
         <div className="msg-container-header">

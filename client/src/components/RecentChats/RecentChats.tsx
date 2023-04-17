@@ -14,7 +14,7 @@ type RecentChat = {
   createdAt: Date;
 };
 
-const RecentChats = () => {
+const RecentChats = ({ onlineFriends }: { onlineFriends: Array<number> }) => {
   const { data, isLoading, error } = useQuery(["recentChats"], () =>
     makeRequest.get("/chats").then((res) => res.data)
   );
@@ -29,11 +29,13 @@ const RecentChats = () => {
               style={{ textDecoration: "none" }}
             >
               <RecentChatTile
+                key={recentChat.receiverId}
                 profilePhoto={recentChat.profilePhoto}
                 name={recentChat.name}
                 surname={recentChat.surname}
                 message={recentChat.message}
                 createdAt={recentChat.createdAt}
+                available={onlineFriends.includes(recentChat.receiverId)}
               />
             </Link>
           ))}
