@@ -22,6 +22,7 @@ const io = new Server(httpServer, {
       "http://127.0.0.1:5173",
       "https://befake.danielsprojects.com.pl",
     ],
+    credentials: true,
   },
 });
 
@@ -66,16 +67,16 @@ app.use((req, res, next) => {
   });
   next();
 });
-app.use(
-  cors({
-    credentials: true,
-    origin: [
-      "http://localhost:5173",
-      "http://127.0.0.1:5173",
-      "https://befake.danielsprojects.com.pl",
-    ],
-  })
-);
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: [
+//       "http://localhost:5173",
+//       "http://127.0.0.1:5173",
+//       "https://befake.danielsprojects.com.pl",
+//     ],
+//   })
+// );
 app.use(cookieParser());
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/auth", authRoutes);
@@ -87,7 +88,6 @@ app.use("/api/v1/stories", storiesRoutes);
 app.use("/api/v1/chats", chatsRoutes);
 
 app.set("port", "8080" || process.env.PORT);
-
 httpServer.listen(app.get("port"), function () {
   console.log("Server running ");
 });
