@@ -9,7 +9,7 @@ import storiesRoutes from "./routes/stories.js";
 import chatsRoutes from "./routes/chats.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { createServer } from "https";
+import { createServer } from "http";
 import { Server } from "socket.io";
 
 const app = express();
