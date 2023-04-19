@@ -23,7 +23,6 @@ const io = new Server(httpServer, {
       "https://befake.danielsprojects.com.pl",
     ],
   },
-  methods: ["GET,PUT,POST,DELETE"],
 });
 
 let activeUsers = [];
@@ -88,7 +87,7 @@ app.use("/api/v1/stories", storiesRoutes);
 app.use("/api/v1/chats", chatsRoutes);
 
 app.set("port", "8080" || process.env.PORT);
-httpServer.listen(8080, "127.0.0.1");
+
 httpServer.listen(app.get("port"), function () {
   console.log("Server running ");
 });
