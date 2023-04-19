@@ -19,7 +19,7 @@ type ChatMessage = {
 };
 
 const Chat = () => {
-  const ENDPOINT = "http://127.0.0.1:8080";
+  const ENDPOINT = "https://befake.danielsprojects.com.pl";
   const socket = useRef(socketIOClient(ENDPOINT));
   const { user } = useContext(AuthContext);
   const [userFriends, setUserFriends] = useState([]);
