@@ -9,7 +9,7 @@ import storiesRoutes from "./routes/stories.js";
 import chatsRoutes from "./routes/chats.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { createServer } from "http";
+import { createServer } from "https";
 import { Server } from "socket.io";
 
 const app = express();
@@ -59,19 +59,13 @@ app.use(express.json());
 app.use((req, res, next) => {
   res.header({
     "Access-Control-Allow-Credentials": true,
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "X-Requested-With",
   });
   next();
 });
 app.use(
   cors({
     credentials: true,
-    origin: [
-      "http://localhost:5173",
-      "http://127.0.0.1:5173",
-      "https://befake.danielsprojects.com.pl",
-    ],
+    origin: "*",
   })
 );
 app.use(cookieParser());
