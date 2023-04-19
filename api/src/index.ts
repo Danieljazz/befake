@@ -81,8 +81,7 @@ app.use("/api/v1/chats", chatsRoutes);
 app.set("port", "8080" || process.env.PORT);
 
 httpServer.listen(app.get("port"), function () {
-  var port = httpServer.address()!.port;
-  console.log("Running on : ", port);
+  console.log("Server running ");
 });
 // app.listen("8080" || process.env.PORT, () => {
 //   console.log(`Backend runs on port ${process.env.PORT}`);
