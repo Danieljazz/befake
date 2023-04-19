@@ -19,7 +19,7 @@ type ChatMessage = {
 };
 
 const Chat = () => {
-  const ENDPOINT = "https://befake.danielsprojects.com.pl";
+  const ENDPOINT = "https://befake-api.onrender.com";
   const socket = useRef(socketIOClient(ENDPOINT));
   const { user } = useContext(AuthContext);
   const [userFriends, setUserFriends] = useState([]);
