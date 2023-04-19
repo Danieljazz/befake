@@ -36,7 +36,6 @@ const Chat = () => {
     socket.current.on("areMyFriendsOnlineResponse", (activeUsers) => {
       setOnlineFriends(activeUsers);
     });
-    console.log("hi From interval", onlineFriends);
   };
 
   useEffect(() => {
@@ -91,7 +90,9 @@ const Chat = () => {
             />
             <div className="receiver-info">
               <h4>{`${receiverProfile?.name} ${receiverProfile?.surname}`}</h4>
-              <span>Available</span>
+              <span>
+                {"Available" && onlineFriends.includes(receiverProfile?.id)}
+              </span>
             </div>
           </div>
         </div>
