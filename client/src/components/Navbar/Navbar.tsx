@@ -10,29 +10,30 @@ import { Link } from "react-router-dom";
 import UserActionsModal from "../../components/UserActionsModal/UserActionsModal";
 import { useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../axiosRequest";
+import UserSearchInput from "../../components/UserSearchInput/UserSearchInput";
 const Navbar = () => {
   const { toggle } = useContext(DarkModeContext);
   const [openUserModal, setOpenUserModal] = useState(false);
-  const [search, setSearch] = useState<String>("");
-  const [searchVisible, setSearchVisible] = useState("none");
-  const { data, isError, isLoading, refetch } = useQuery(["searchUser"], () =>
-    makeRequest.get(`/users/search_user${search}`).then((res) => res.data)
-  );
+  // const [search, setSearch] = useState<String>("");
+  // const [searchVisible, setSearchVisible] = useState("none");
+  // const { data, isError, isLoading, refetch } = useQuery(["searchUser"], () =>
+  //   makeRequest.get(`/users/search_user${search}`).then((res) => res.data)
+  // );
 
-  const searchUser = async (e: React.FormEvent) => {
-    const target = e.target as HTMLInputElement;
-    if (target.value.length > 2) {
-      await setSearch(`?searchUser=${target.value}`);
-    }
-    console.log(data);
-    if (target.value.length === 0) {
-      await setSearch("");
-    }
-  };
-  useEffect(() => {
-    refetch();
-    console.log(data);
-  }, [search]);
+  // const searchUser = async (e: React.FormEvent) => {
+  //   const target = e.target as HTMLInputElement;
+  //   if (target.value.length > 2) {
+  //     await setSearch(`?searchUser=${target.value}`);
+  //   }
+  //   console.log(data);
+  //   if (target.value.length === 0) {
+  //     await setSearch("");
+  //   }
+  // };
+  // useEffect(() => {
+  //   refetch();
+  //   console.log(data);
+  // }, [search]);
 
   return (
     <div className="navbar">
@@ -48,7 +49,7 @@ const Navbar = () => {
           onClick={toggle}
           style={{ cursor: "pointer" }}
         />
-        <input
+        {/* <input
           placeholder="Find new friends here "
           onFocus={() => setSearchVisible("block")}
           onChange={searchUser}
@@ -68,7 +69,8 @@ const Navbar = () => {
               >{`${user.name} ${user.surname}`}</Link>
             </li>
           ))}
-        </ul>
+        </ul> */}
+        <UserSearchInput placeholder="Find new friends" linkTo={`/profile/`} />
       </div>
       <div className="middle">
         <Link to={"/"} style={{ textDecoration: "none" }}>
