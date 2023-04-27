@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { AuthContext } from "../../context/authContext";
 import { useRef } from "react";
+import indicator from "../../assets/indicator.gif";
 
 type ChatMessage = {
   message: string;
@@ -24,6 +25,7 @@ const Chat = () => {
   const { user } = useContext(AuthContext);
   const [userFriends, setUserFriends] = useState([]);
   const [onlineFriends, setOnlineFriends] = useState([]);
+  const [activeChat, setActiveChat] = useState(null);
   useEffect(() => {
     socket.current.emit("addActiveUser", user.id);
     makeRequest
@@ -48,22 +50,27 @@ const Chat = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const { receiverId } = useParams();
+  //const { receiverId } = useParams();
   const queryClient = useQueryClient();
   const [newMessage, setNewMessage] = useState<ChatMessage["message"]>("");
-  const { data, error, isLoading, refetch } = useQuery(["chat"], () =>
-    makeRequest.get(`/chats/${receiverId}`).then((res) => res.data)
+  const {
+    data,
+    error: RecentChatMessagesError,
+    isLoading: RecentMessagesLoading,
+    refetch,
+  } = useQuery(["chat"], () =>
+    makeRequest.get(`/chats/${activeChat}`).then((res) => res.data)
   );
   const { data: receiverProfile, refetch: refetchProfile } = useQuery(
     ["user"],
     () =>
       makeRequest
-        .get(`/users/find?userId=${receiverId}`)
+        .get(`/users/find?userId=${activeChat}`)
         .then((res) => res.data)
   );
 
   const chatMutate = useMutation(
-    (message) => makeRequest.post(`/chats/${receiverId}`, message),
+    (message) => makeRequest.post(`/chats/${activeChat}`, message),
     {
       onSuccess: () => {
         setNewMessage("");
@@ -71,14 +78,21 @@ const Chat = () => {
       },
     }
   );
+
   useEffect(() => {
-    refetch();
-    refetchProfile();
-  }, [receiverId]);
+    if (activeChat !== null) {
+      refetch();
+      refetchProfile();
+    }
+    console.log(activeChat);
+  }, [activeChat]);
   return (
     <div className="chat-page">
       <div>
-        <RecentChats onlineFriends={onlineFriends} />
+        <RecentChats
+          setActiveChat={setActiveChat}
+          onlineFriends={onlineFriends}
+        />
       </div>
       <div className="messages">
         <div className="msg-container-header">
@@ -89,7 +103,11 @@ const Chat = () => {
               className="profile-photo"
             />
             <div className="receiver-info">
-              <h4>{`${receiverProfile?.name} ${receiverProfile?.surname}`}</h4>
+              <h4>
+                {receiverProfile
+                  ? `${receiverProfile?.name} ${receiverProfile?.surname}`
+                  : "Befake user"}
+              </h4>
               <span>
                 {"Available" && onlineFriends.includes(receiverProfile?.id)}
               </span>
@@ -97,7 +115,10 @@ const Chat = () => {
           </div>
         </div>
         <div className="msg-container-content">
-          {data &&
+          {RecentMessagesLoading ? (
+            <img src={indicator} style={{ width: "10px" }} />
+          ) : !RecentChatMessagesError ? (
+            data &&
             data?.map((message: ChatMessage) => (
               <ChatMessage
                 key={message.id}
@@ -105,7 +126,14 @@ const Chat = () => {
                 senderId={message.senderId}
                 message={message.message}
               />
-            ))}
+            ))
+          ) : (
+            <span style={{ color: "red" }}>
+              {` Cannot fetch messages smth went wrong :( ${
+                RecentChatMessagesError ? RecentChatMessagesError : ""
+              }`}
+            </span>
+          )}
         </div>
         <div className="new-msg">
           <input

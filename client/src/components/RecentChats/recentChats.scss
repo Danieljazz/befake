@@ -4,6 +4,11 @@
   background-color: rgba(196, 159, 198, 0.6);
   min-height: 100vh;
   overflow-y: auto;
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   & > .latest-chats {
     list-style: none;
     padding: 0;
