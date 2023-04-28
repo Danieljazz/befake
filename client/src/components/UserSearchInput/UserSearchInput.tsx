@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { makeRequest } from "../../axiosRequest";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import "./userSeachInput.scss";
 const UserSearchInput = ({
   placeholder,
@@ -21,14 +22,12 @@ const UserSearchInput = ({
     if (target.value.length > 2) {
       await setSearch(`?searchUser=${target.value}`);
     }
-    console.log(data);
     if (target.value.length === 0) {
       await setSearch("");
     }
   };
   useEffect(() => {
     refetch();
-    console.log(data);
   }, [search]);
 
   return (

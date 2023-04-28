@@ -3,9 +3,12 @@ import RecentChatTile from "../RecentChatTile/RecentChatTile";
 import "./recentChats.scss";
 import { makeRequest } from "../../axiosRequest";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContextType } from "../../context/authContext";
 import { useEffect, useState } from "react";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import NewChatModal from "../../components/NewChatModal/NewChatModal";
+import UserSearchInput from "../../components/UserSearchInput/UserSearchInput";
+import { v4 as uuidv4 } from "uuid";
+
 type RecentChat = {
   receiverId: number;
   profilePhoto: string;
@@ -30,11 +33,14 @@ const RecentChats = ({ onlineFriends, setActiveChat }) => {
 
   return (
     <div className="chats">
+      {openNewMessageModal && (
+        <NewChatModal setOpenNewMessageModal={setOpenNewMessageModal} />
+      )}
       <div className="header">
         <h1>Chats</h1>
         <BorderColorIcon
           style={{ cursor: "pointer" }}
-          onClick={() => setOpenNewMessageModal(true)}
+          onClick={() => setOpenNewMessageModal((prev) => !prev)}
         />
       </div>
       <ul className="latest-chats">
