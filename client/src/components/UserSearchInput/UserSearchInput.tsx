@@ -7,12 +7,14 @@ import "./userSeachInput.scss";
 const UserSearchInput = ({
   placeholder,
   linkTo,
+  setModalOpen,
 }: {
   placeholder: string;
   linkTo: string;
+  setModalOpen?: (value: boolean | ((prevVar: boolean) => boolean)) => void;
 }) => {
   const [search, setSearch] = useState<String>("");
-  const [searchVisible, setSearchVisible] = useState("none");
+  const [searchVisible, setSearchVisible] = useState(false);
   const { data, isError, isLoading, refetch } = useQuery(["searchUser"], () =>
     makeRequest.get(`/users/search_user${search}`).then((res) => res.data)
   );
@@ -34,25 +36,31 @@ const UserSearchInput = ({
     <div className="user-search">
       <input
         placeholder={placeholder}
-        onFocus={() => setSearchVisible("block")}
+        onFocus={() => setSearchVisible(true)}
         onChange={searchUser}
       />
-      <ul
-        style={{ display: `${searchVisible}` }}
-        className="search-result"
-        onBlur={() => {
-          setSearchVisible("none");
-          setSearch("");
-        }}
-      >
-        {data?.map((user) => (
-          <li>
-            <Link
-              to={`${linkTo}${user.id}`}
-            >{`${user.name} ${user.surname}`}</Link>
-          </li>
-        ))}
-      </ul>
+      {searchVisible && (
+        <ul
+          className="search-result"
+          onBlur={() => {
+            setSearchVisible(false);
+            setSearch("");
+          }}
+        >
+          {data?.map((user) => (
+            <li
+              onClick={() => {
+                setModalOpen && setModalOpen(false);
+              }}
+            >
+              <Link
+                key={uuidv4()}
+                to={`${linkTo}${user.id}`}
+              >{`${user.name} ${user.surname}`}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

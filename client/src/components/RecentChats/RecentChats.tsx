@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import RecentChatTile from "../RecentChatTile/RecentChatTile";
 import "./recentChats.scss";
 import { makeRequest } from "../../axiosRequest";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import NewChatModal from "../../components/NewChatModal/NewChatModal";
@@ -22,13 +22,18 @@ const RecentChats = ({ onlineFriends, setActiveChat }) => {
   const { data, isLoading, error } = useQuery(["recentChats"], () =>
     makeRequest.get("/chats").then((res) => res.data)
   );
+  const { receiverId } = useParams();
   const [openNewMessageModal, setOpenNewMessageModal] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    if (data) {
+    if (data && receiverId == null) {
       setActiveChat(data[0]?.receiverId);
       navigate(`/chat/${data[0]?.receiverId}`);
     }
+    // if (receiverId != null) {
+    //   setActiveChat(receiverId);
+    //   navigate(`/chat/${receiverId}`);
+    // }
   }, [data]);
 
   return (

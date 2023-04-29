@@ -9,7 +9,7 @@ import { DarkModeContext } from "../../context/DarkModeContext";
 import { Link } from "react-router-dom";
 import UserActionsModal from "../../components/UserActionsModal/UserActionsModal";
 import { useQuery } from "@tanstack/react-query";
-import { makeRequest } from "../../axiosRequest";
+import { v4 as uuidv4 } from "uuid";
 import UserSearchInput from "../../components/UserSearchInput/UserSearchInput";
 const Navbar = () => {
   const { toggle } = useContext(DarkModeContext);
@@ -70,7 +70,11 @@ const Navbar = () => {
             </li>
           ))}
         </ul> */}
-        <UserSearchInput placeholder="Find new friends" linkTo={`/profile/`} />
+        <UserSearchInput
+          placeholder="Find new friends"
+          linkTo={`/profile/`}
+          key={uuidv4()}
+        />
       </div>
       <div className="middle">
         <Link to={"/"} style={{ textDecoration: "none" }}>

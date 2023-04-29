@@ -20,35 +20,40 @@ type ChatMessage = {
 };
 
 const Chat = () => {
-  const ENDPOINT = "https://befake-api.onrender.com";
-  const socket = useRef(socketIOClient(ENDPOINT));
   const { user } = useContext(AuthContext);
   const [userFriends, setUserFriends] = useState([]);
   const [onlineFriends, setOnlineFriends] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
+  const { receiverId } = useParams();
   useEffect(() => {
-    socket.current.emit("addActiveUser", user.id);
+    const ENDPOINT = "https://befake-api.onrender.com";
+    const socket = socketIOClient(ENDPOINT);
+    socket.emit("addActiveUser", user.id);
     makeRequest
       .get(`/relationships?userId=${user.id}`)
       .then((res) => setUserFriends(res.data));
+    getOnlineFriends(socket);
   }, []);
 
-  const getOnlineFriends = () => {
-    socket.current.emit("areMyFriendsOnline", userFriends);
-    socket.current.on("areMyFriendsOnlineResponse", (activeUsers) => {
+  const getOnlineFriends = (socket) => {
+    socket.emit("areMyFriendsOnline", userFriends);
+    socket.on("areMyFriendsOnlineResponse", (activeUsers) => {
       setOnlineFriends(activeUsers);
     });
   };
-
   useEffect(() => {
-    getOnlineFriends();
-  }, [socket, userFriends]);
+    if (receiverId !== null) setActiveChat(receiverId);
+  }, [receiverId]);
 
-  useEffect(() => {
-    const interval = setInterval(() => getOnlineFriends(), 60000);
+  // useEffect(() => {
+  //   getOnlineFriends();
+  // }, [socket, userFriends]);
 
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => getOnlineFriends(), 60000);
+
+  //   return () => clearInterval(interval);
+  // }, []);
 
   //const { receiverId } = useParams();
   const queryClient = useQueryClient();
@@ -64,6 +69,7 @@ const Chat = () => {
   const { data: receiverProfile, refetch: refetchProfile } = useQuery(
     ["user"],
     () =>
+      activeChat !== null &&
       makeRequest
         .get(`/users/find?userId=${activeChat}`)
         .then((res) => res.data)
@@ -86,6 +92,19 @@ const Chat = () => {
     }
     console.log(activeChat);
   }, [activeChat]);
+
+  const newMsgHanlder = (e) => {
+    const msg = e.target.value;
+    setNewMessage(msg);
+    // Calculate the height
+    e.target.style.height = "inherit";
+    const height = e.target.scrollHeight;
+    if (height < 140) {
+      e.target.style.height = `${height}px`;
+    } else {
+      e.target.style.height = `140px`;
+    }
+  };
   return (
     <div className="chat-page">
       <div>
@@ -136,11 +155,12 @@ const Chat = () => {
           )}
         </div>
         <div className="new-msg">
-          <input
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-          />
-          <button onClick={() => chatMutate.mutate({ message: newMessage })}>
+          <textarea onChange={newMsgHanlder}></textarea>
+          <button
+            onClick={() => {
+              chatMutate.mutate({ message: newMessage });
+            }}
+          >
             <SendOutlinedIcon />
           </button>
         </div>
