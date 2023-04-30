@@ -2,14 +2,13 @@ import "./chat.scss";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import ChatMessage from "../../components/ChatMessage/ChatMessage";
 import RecentChats from "../../components/RecentChats/RecentChats";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axiosRequest";
 import { useContext, useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { AuthContext } from "../../context/authContext";
-import { useRef } from "react";
-import indicator from "../../assets/indicator.gif";
+import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 
 type ChatMessage = {
   message: string;
@@ -90,13 +89,11 @@ const Chat = () => {
       refetch();
       refetchProfile();
     }
-    console.log(activeChat);
   }, [activeChat]);
 
   const newMsgHanlder = (e) => {
     const msg = e.target.value;
     setNewMessage(msg);
-    // Calculate the height
     e.target.style.height = "inherit";
     const height = e.target.scrollHeight;
     if (height < 140) {
@@ -135,7 +132,7 @@ const Chat = () => {
         </div>
         <div className="msg-container-content">
           {RecentMessagesLoading ? (
-            <img src={indicator} style={{ width: "10px" }} />
+            <LoadingIndicator />
           ) : !RecentChatMessagesError ? (
             data &&
             data?.map((message: ChatMessage) => (
@@ -155,10 +152,11 @@ const Chat = () => {
           )}
         </div>
         <div className="new-msg">
-          <textarea onChange={newMsgHanlder}></textarea>
+          <textarea value={newMessage} onChange={newMsgHanlder}></textarea>
           <button
             onClick={() => {
               chatMutate.mutate({ message: newMessage });
+              setNewMessage("");
             }}
           >
             <SendOutlinedIcon />

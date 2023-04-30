@@ -6,8 +6,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import NewChatModal from "../../components/NewChatModal/NewChatModal";
-import UserSearchInput from "../../components/UserSearchInput/UserSearchInput";
-import { v4 as uuidv4 } from "uuid";
+import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 
 type RecentChat = {
   receiverId: number;
@@ -30,10 +29,6 @@ const RecentChats = ({ onlineFriends, setActiveChat }) => {
       setActiveChat(data[0]?.receiverId);
       navigate(`/chat/${data[0]?.receiverId}`);
     }
-    // if (receiverId != null) {
-    //   setActiveChat(receiverId);
-    //   navigate(`/chat/${receiverId}`);
-    // }
   }, [data]);
 
   return (
@@ -48,26 +43,30 @@ const RecentChats = ({ onlineFriends, setActiveChat }) => {
           onClick={() => setOpenNewMessageModal((prev) => !prev)}
         />
       </div>
-      <ul className="latest-chats">
-        {data &&
-          data?.map((recentChat: RecentChat) => (
-            <Link
-              to={`/chat/${recentChat.receiverId}`}
-              style={{ textDecoration: "none" }}
-              onClick={() => setActiveChat(recentChat.receiverId)}
-            >
-              <RecentChatTile
-                key={recentChat.receiverId}
-                profilePhoto={recentChat.profilePhoto}
-                name={recentChat.name}
-                surname={recentChat.surname}
-                message={recentChat.message}
-                createdAt={recentChat.createdAt}
-                available={onlineFriends.includes(recentChat.receiverId)}
-              />
-            </Link>
-          ))}
-      </ul>
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        <ul className="latest-chats">
+          {data &&
+            data?.map((recentChat: RecentChat) => (
+              <Link
+                to={`/chat/${recentChat.receiverId}`}
+                style={{ textDecoration: "none" }}
+                onClick={() => setActiveChat(recentChat.receiverId)}
+              >
+                <RecentChatTile
+                  key={recentChat.receiverId}
+                  profilePhoto={recentChat.profilePhoto}
+                  name={recentChat.name}
+                  surname={recentChat.surname}
+                  message={recentChat.message}
+                  createdAt={recentChat.createdAt}
+                  available={onlineFriends.includes(recentChat.receiverId)}
+                />
+              </Link>
+            ))}
+        </ul>
+      )}
     </div>
   );
 };

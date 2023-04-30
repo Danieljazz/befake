@@ -38,38 +38,17 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="left">
-        <Link to={"/"}>
+        {/* <Link to={"/"}>
           <HomeOutlinedIcon
             sx={{ fontSize: "2rem" }}
             style={{ cursor: "pointer" }}
           />
-        </Link>
+        </Link> */}
         <DarkModeOutlinedIcon
           sx={{ fontSize: "2rem" }}
           onClick={toggle}
           style={{ cursor: "pointer" }}
         />
-        {/* <input
-          placeholder="Find new friends here "
-          onFocus={() => setSearchVisible("block")}
-          onChange={searchUser}
-        />
-        <ul
-          style={{ display: `${searchVisible}` }}
-          className="search-result"
-          onBlur={() => {
-            setSearchVisible("none");
-            setSearch("");
-          }}
-        >
-          {data?.map((user) => (
-            <li>
-              <Link
-                to={`/profile/${user.id}`}
-              >{`${user.name} ${user.surname}`}</Link>
-            </li>
-          ))}
-        </ul> */}
         <UserSearchInput
           placeholder="Find new friends"
           linkTo={`/profile/`}
@@ -84,7 +63,9 @@ const Navbar = () => {
       <div className="right">
         {/* TODO: Add modals */}
         <NotificationsActiveOutlinedIcon sx={{ fontSize: "2rem" }} />
-        <EmailOutlinedIcon sx={{ fontSize: "2rem" }} />
+        <Link to={"/chat"}>
+          <EmailOutlinedIcon sx={{ fontSize: "2rem" }} />
+        </Link>
         <div
           style={{ cursor: "pointer" }}
           onClick={() => setOpenUserModal((prev) => !prev)}
