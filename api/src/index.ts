@@ -7,6 +7,7 @@ import likesRoutes from "./routes/likes.js";
 import relationshipsRoutes from "./routes/relationships.js";
 import storiesRoutes from "./routes/stories.js";
 import chatsRoutes from "./routes/chats.js";
+import notificationsRoutes from "./routes/notifications.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { createServer } from "http";
@@ -17,6 +18,7 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
+    credentials: true,
     origin: [
       "http://localhost:5173",
       "http://127.0.0.1:5173",
@@ -85,6 +87,7 @@ app.use("/api/v1/postlikes", likesRoutes);
 app.use("/api/v1/relationships", relationshipsRoutes);
 app.use("/api/v1/stories", storiesRoutes);
 app.use("/api/v1/chats", chatsRoutes);
+app.use("/api/v1/notifications", notificationsRoutes);
 
 app.set("port", "8080" || process.env.PORT);
 
