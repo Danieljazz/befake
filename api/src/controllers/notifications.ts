@@ -8,7 +8,7 @@ export const getNotifications = (req, res) => {
     const q = `SELECT * FROM notifications WHERE notifier_id = ? ORDER BY createdAt DESC`;
     db.query(q, [userId.id], (err, data) => {
       if (err) return res.status(500).json(err);
-      return res.status(200).json(userId);
+      return res.status(200).json(data);
     });
   });
 };
