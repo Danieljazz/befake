@@ -19,7 +19,7 @@ export const readNotification = (req, res) => {
     if (err) return res.status(403).json("Wrong credentials");
     const q = `UPDATE notifications SET notif_read = ? WHERE id=?`;
     db.query(q, [req.body.notif_read, req.body.id], (err, data) => {
-      if (err) return res.status(500).json("Smth went wrong");
+      if (err) return res.status(500).json(err);
       return res
         .status(200)
         .json(`Notification read status changed to ${req.body.notif_read}`);
