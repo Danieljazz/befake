@@ -17,7 +17,7 @@ export const readNotification = (req, res) => {
   if (!token) res.status(403).json("User not logged in");
   jwt.verify(token, process.env.key, (err, user) => {
     if (err) return res.status(403).json("Wrong credentials");
-    const q = `UPDATE notifications SET notif_read = ? WHERE id=?`;
+    const q = `UPDATE notifications SET notif_read = ? WHERE notif_id=?`;
     db.query(q, [req.body.notif_read, req.body.id], (err, data) => {
       if (err) return res.status(500).json(err);
       return res
