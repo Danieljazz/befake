@@ -1,4 +1,15 @@
+import { useEffect } from "react";
+import { makeRequest } from "../../axiosRequest";
+import { useQuery } from "@tanstack/react-query";
+
 const LatestActivities = () => {
+  const { data, error, isLoading } = useQuery(["notifications"], () => {
+    makeRequest.get("/notifications").then((res) => res.data);
+  });
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   return (
     <div className="section">
       <span>Latest activities</span>
