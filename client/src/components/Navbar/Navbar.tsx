@@ -1,5 +1,5 @@
 import "./navbar.scss";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import Badge from "@mui/material/Badge";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
@@ -11,29 +11,26 @@ import UserActionsModal from "../../components/UserActionsModal/UserActionsModal
 import { useQuery } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
 import UserSearchInput from "../../components/UserSearchInput/UserSearchInput";
+import { makeRequest } from "../../axiosRequest";
 const Navbar = () => {
   const { toggle } = useContext(DarkModeContext);
   const [openUserModal, setOpenUserModal] = useState(false);
-  // const [search, setSearch] = useState<String>("");
-  // const [searchVisible, setSearchVisible] = useState("none");
-  // const { data, isError, isLoading, refetch } = useQuery(["searchUser"], () =>
-  //   makeRequest.get(`/users/search_user${search}`).then((res) => res.data)
-  // );
+  const { isLoading, error, data } = useQuery(["notificationsNavbar"], () =>
+    makeRequest.get("/notifications").then((res) => {
+      return res.data;
+    })
+  );
 
-  // const searchUser = async (e: React.FormEvent) => {
-  //   const target = e.target as HTMLInputElement;
-  //   if (target.value.length > 2) {
-  //     await setSearch(`?searchUser=${target.value}`);
-  //   }
-  //   console.log(data);
-  //   if (target.value.length === 0) {
-  //     await setSearch("");
-  //   }
-  // };
-  // useEffect(() => {
-  //   refetch();
-  //   console.log(data);
-  // }, [search]);
+  const getNotifAction = (action: number) => {
+    switch (action) {
+      case 1:
+        return "posted";
+      case 2:
+        return "commented your post";
+      case 3:
+        return "liked your post";
+    }
+  };
 
   return (
     <div className="navbar">
@@ -62,7 +59,13 @@ const Navbar = () => {
       </div>
       <div className="right">
         {/* TODO: Add modals */}
-        <NotificationsActiveOutlinedIcon sx={{ fontSize: "2rem" }} />
+        <Badge
+          badgeContent={data?.filter((notif) => notif.notif_read == 0).length}
+          color="error"
+          max={9}
+        >
+          <NotificationsActiveOutlinedIcon sx={{ fontSize: "2rem" }} />
+        </Badge>
         <Link to={"/chat"}>
           <EmailOutlinedIcon sx={{ fontSize: "2rem" }} />
         </Link>
