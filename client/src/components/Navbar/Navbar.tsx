@@ -12,35 +12,20 @@ import { useQuery } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
 import UserSearchInput from "../../components/UserSearchInput/UserSearchInput";
 import { makeRequest } from "../../axiosRequest";
+import AllNotificationsPanel from "../../components/AllNotificationsPanel/AllNotificationsPanel";
 const Navbar = () => {
   const { toggle } = useContext(DarkModeContext);
   const [openUserModal, setOpenUserModal] = useState(false);
+  const [openNotifications, setOpenNotifications] = useState(false);
   const { isLoading, error, data } = useQuery(["notificationsNavbar"], () =>
     makeRequest.get("/notifications").then((res) => {
       return res.data;
     })
   );
 
-  const getNotifAction = (action: number) => {
-    switch (action) {
-      case 1:
-        return "posted";
-      case 2:
-        return "commented your post";
-      case 3:
-        return "liked your post";
-    }
-  };
-
   return (
     <div className="navbar">
       <div className="left">
-        {/* <Link to={"/"}>
-          <HomeOutlinedIcon
-            sx={{ fontSize: "2rem" }}
-            style={{ cursor: "pointer" }}
-          />
-        </Link> */}
         <DarkModeOutlinedIcon
           sx={{ fontSize: "2rem" }}
           onClick={toggle}
@@ -58,16 +43,23 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="right">
-        {/* TODO: Add modals */}
-        <Badge
-          badgeContent={data?.filter((notif) => notif.notif_read == 0).length}
-          color="error"
-          max={9}
+        <div
+          style={{ cursor: "pointer", position: "relative" }}
+          onClick={() => setOpenNotifications(!openNotifications)}
         >
-          <NotificationsActiveOutlinedIcon sx={{ fontSize: "2rem" }} />
-        </Badge>
+          <Badge
+            badgeContent={data?.filter((notif) => notif.notif_read == 0).length}
+            color="error"
+            max={9}
+          >
+            <NotificationsActiveOutlinedIcon sx={{ fontSize: "2rem" }} />
+          </Badge>
+        </div>
+        {openNotifications && <AllNotificationsPanel notifications={data} />}
         <Link to={"/chat"}>
-          <EmailOutlinedIcon sx={{ fontSize: "2rem" }} />
+          <Badge color="error" variant="dot">
+            <EmailOutlinedIcon sx={{ fontSize: "2rem" }} />
+          </Badge>
         </Link>
         <div
           style={{ cursor: "pointer" }}

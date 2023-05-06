@@ -1,5 +1,6 @@
 import { makeRequest } from "../../axiosRequest";
 import { useQuery } from "@tanstack/react-query";
+import { getNotifAction } from "../../utils/notificationType";
 import moment from "moment";
 
 const LatestActivities = () => {
@@ -8,17 +9,6 @@ const LatestActivities = () => {
       return res.data;
     })
   );
-
-  const getNotifAction = (action: number) => {
-    switch (action) {
-      case 1:
-        return "posted";
-      case 2:
-        return "commented your post";
-      case 3:
-        return "liked your post";
-    }
-  };
 
   return (
     <>

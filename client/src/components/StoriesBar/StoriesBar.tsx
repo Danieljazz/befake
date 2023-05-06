@@ -12,8 +12,8 @@ export const StoriesBar = () => {
     makeRequest.get("/stories/").then((res) => res.data)
   );
 
-  let storiesLen = data ? data?.length : 7;
-  let possibleMove = storiesLen - 7;
+  let storiesLen = data ? data?.length : 6;
+  let possibleMove = storiesLen - 6;
   const [move, setMove] = useState<number>(1);
   const moveStories = (direction: string) => {
     if (direction === "right") {

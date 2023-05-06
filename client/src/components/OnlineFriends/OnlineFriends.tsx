@@ -1,4 +1,14 @@
+import { useQuery } from "@tanstack/react-query";
+import { useContext } from "react";
+import { makeRequest } from "../../axiosRequest";
+import { AuthContext } from "../../context/authContext";
+
 const OnlineFriends = () => {
+  const { user } = useContext(AuthContext);
+  const { isLoading, isError, data } = useQuery(["friends"], () =>
+    makeRequest.get(`/relationships?userId=${user.id}`).then((res) => res.data)
+  );
+  console.log(data);
   return (
     <div className="section">
       <span>Friends online</span>
