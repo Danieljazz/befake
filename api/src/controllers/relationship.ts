@@ -3,13 +3,9 @@ import jwt from "jsonwebtoken";
 
 export const getUserRelathionship = (req, res) => {
   const userId = req.query.userId;
-  const q = `SELECT r.*, name, surname, profilePhoto FROM relationships AS r INNER JOIN users AS u ON(r.followedUserId = u.id) WHERE followingUserId = ?`;
+  const q = `SELECT r.*, name, surname, profilePhoto FROM relationships AS r LEFT JOIN users AS u ON(r.followedUserId = u.id) WHERE followingUserId = ?`;
   db.query(q, [userId], (err, data) => {
     if (err) return res.status(500).json(err);
-    if (data.length > 0) {
-      const followedUser = data.map((item) => item.followedUserId);
-      return res.status(200).json(followedUser);
-    }
     return res.status(200).json(data);
   });
 };
