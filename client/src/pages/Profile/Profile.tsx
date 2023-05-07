@@ -54,9 +54,10 @@ const Profile = () => {
       },
     }
   );
+  const userFriends = relationshipData.map((user) => user.id);
 
   const handleFollow = () => {
-    followMutation.mutate(relationshipData.includes(userId));
+    followMutation.mutate(userFriends.includes(userId));
   };
 
   return (
@@ -109,7 +110,7 @@ const Profile = () => {
                 "Loading"
               ) : userId !== user.id ? (
                 <button style={{ cursor: "pointer" }} onClick={handleFollow}>
-                  {!relationshipData.includes(userId) ? "Follow" : "Unfollow"}
+                  {!userFriends.includes(userId) ? "Follow" : "Unfollow"}
                 </button>
               ) : (
                 <button onClick={() => setOpenUpdate(true)}>Update</button>
