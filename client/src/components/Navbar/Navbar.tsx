@@ -12,7 +12,9 @@ import { useQuery } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
 import UserSearchInput from "../../components/UserSearchInput/UserSearchInput";
 import { makeRequest } from "../../axiosRequest";
-import AllNotificationsPanel from "../../components/AllNotificationsPanel/AllNotificationsPanel";
+import AllNotificationsPanel, {
+  NotifType,
+} from "../../components/AllNotificationsPanel/AllNotificationsPanel";
 const Navbar = () => {
   const { toggle } = useContext(DarkModeContext);
   const [openUserModal, setOpenUserModal] = useState(false);
@@ -48,7 +50,9 @@ const Navbar = () => {
           onClick={() => setOpenNotifications(!openNotifications)}
         >
           <Badge
-            badgeContent={data?.filter((notif) => notif.notif_read == 0).length}
+            badgeContent={
+              data?.filter((notif: NotifType) => notif.notif_read == 0).length
+            }
             color="error"
             max={9}
           >

@@ -1,7 +1,14 @@
 import UserSearchInput from "../../components/UserSearchInput/UserSearchInput";
 import "./newChatModal.scss";
 import { v4 as uuidv4 } from "uuid";
-const NewChatModal = ({ setOpenNewMessageModal }) => {
+
+type NewChatModalProps = {
+  setOpenNewMessageModal: (
+    value: boolean | ((prev: boolean) => boolean)
+  ) => void;
+};
+
+const NewChatModal = ({ setOpenNewMessageModal }: NewChatModalProps) => {
   return (
     <div className="overlay">
       <div className="new-chat-modal-content">

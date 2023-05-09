@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import "./userSeachInput.scss";
+import { UserContextType } from "context/authContext";
 const UserSearchInput = ({
   placeholder,
   linkTo,
@@ -47,7 +48,7 @@ const UserSearchInput = ({
             setSearch("");
           }}
         >
-          {data?.map((user) => (
+          {data?.map((user: UserContextType) => (
             <li
               onClick={() => {
                 setModalOpen && setModalOpen(false);

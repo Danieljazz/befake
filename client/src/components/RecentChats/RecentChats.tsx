@@ -17,7 +17,12 @@ type RecentChat = {
   createdAt: Date;
 };
 
-const RecentChats = ({ onlineFriends, setActiveChat }) => {
+type RecentChatsType = {
+  onlineFriends: Number[];
+  setActiveChat: React.Dispatch<React.SetStateAction<Number | null>>;
+};
+
+const RecentChats = ({ onlineFriends, setActiveChat }: RecentChatsType) => {
   const { data, isLoading, error } = useQuery(["recentChats"], () =>
     makeRequest.get("/chats").then((res) => res.data)
   );

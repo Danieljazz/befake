@@ -3,16 +3,23 @@ import { useContext } from "react";
 import { makeRequest } from "../../axiosRequest";
 import { AuthContext } from "../../context/authContext";
 import { Link } from "react-router-dom";
+
+type FriendType = {
+  id: number;
+  name: string;
+  surname: string;
+  profilePhoto: string;
+};
+
 const OnlineFriends = () => {
   const { user } = useContext(AuthContext);
   const { isLoading, isError, data } = useQuery(["friends"], () =>
     makeRequest.get(`/relationships?userId=${user.id}`).then((res) => res.data)
   );
-  console.log(data);
   return (
     <div className="section">
       <span>Friends online</span>
-      {data?.slice(0, 5).map((friend) => (
+      {data?.slice(0, 5).map((friend: FriendType) => (
         <Link
           key={friend.id}
           to={`/profile/${friend.id}`}

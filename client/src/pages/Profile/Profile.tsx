@@ -7,7 +7,7 @@ import "./profile.scss";
 import { useLocation } from "react-router-dom";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../axiosRequest";
-import { AuthContext } from "../../context/authContext";
+import { AuthContext, UserContextType } from "../../context/authContext";
 import { useContext, useState } from "react";
 import indicator from "../../assets/indicator.gif";
 import UpdateModal from "../../components/UpdateModal/UpdateModal";
@@ -54,7 +54,7 @@ const Profile = () => {
       },
     }
   );
-  const userFriends = relationshipData.map((user) => user.id);
+  const userFriends = relationshipData.map((user: UserContextType) => user.id);
 
   const handleFollow = () => {
     followMutation.mutate(userFriends.includes(userId));

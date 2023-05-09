@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axiosRequest";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
-type Notification = {
+export type NotifType = {
   notif_id: number;
   actor_id: number;
   notifier_id: number;
@@ -19,7 +19,7 @@ type Notification = {
 };
 
 type NotifArray = {
-  notifications: Notification[];
+  notifications: NotifType[];
 };
 
 const AllNotificationsPanel = ({ notifications }: NotifArray) => {
@@ -28,8 +28,10 @@ const AllNotificationsPanel = ({ notifications }: NotifArray) => {
   const [mutationLoading, setMutationLoading] = useState(false);
   const queryClient = useQueryClient();
 
-  const readUnreadNotification = (e: React.FormEvent, notif_read) => {
-    const value: string = e.target.parentNode.id;
+  const readUnreadNotification = (e: React.FormEvent, notif_read: boolean) => {
+    const target = e.target as HTMLButtonElement;
+    const liElement = target!.parentNode! as HTMLLIElement;
+    const value = Number(liElement!.id);
     readNotifMutation.mutate({ nid: value, nread: !notif_read });
   };
 
@@ -41,7 +43,7 @@ const AllNotificationsPanel = ({ notifications }: NotifArray) => {
   }, [allNotifs, mutationLoading]);
 
   const readNotifMutation = useMutation(
-    ({ nid, nread }: { nid: Number; nread: Number }) =>
+    ({ nid, nread }: { nid: Number; nread: Boolean }) =>
       makeRequest.post("/notifications", { id: nid, notif_read: nread }),
     {
       onSuccess: () => {

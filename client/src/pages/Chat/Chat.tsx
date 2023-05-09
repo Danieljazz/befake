@@ -9,6 +9,8 @@ import { useContext, useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { AuthContext } from "../../context/authContext";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
+import { Socket } from "socket.io";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 type ChatMessage = {
   message: string;
@@ -18,11 +20,18 @@ type ChatMessage = {
   newMessage?: string;
 };
 
+type ReceiverType = {
+  id: number;
+  profilePhoto: string;
+  name: string;
+  surname: string;
+};
+
 const Chat = () => {
   const { user } = useContext(AuthContext);
   const [userFriends, setUserFriends] = useState([]);
-  const [onlineFriends, setOnlineFriends] = useState([]);
-  const [activeChat, setActiveChat] = useState(null);
+  const [onlineFriends, setOnlineFriends] = useState<Number[]>([]);
+  const [activeChat, setActiveChat] = useState<Number | null>(null);
   const { receiverId } = useParams();
   useEffect(() => {
     const ENDPOINT = "https://befake-api.onrender.com";
@@ -31,30 +40,16 @@ const Chat = () => {
     makeRequest
       .get(`/relationships?userId=${user.id}`)
       .then((res) => setUserFriends(res.data));
-    getOnlineFriends(socket);
-  }, []);
-
-  const getOnlineFriends = (socket) => {
     socket.emit("areMyFriendsOnline", userFriends);
     socket.on("areMyFriendsOnlineResponse", (activeUsers) => {
       setOnlineFriends(activeUsers);
     });
-  };
+  }, []);
+
   useEffect(() => {
-    if (receiverId !== null) setActiveChat(receiverId);
+    if (receiverId !== null) setActiveChat(Number(receiverId));
   }, [receiverId]);
 
-  // useEffect(() => {
-  //   getOnlineFriends();
-  // }, [socket, userFriends]);
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => getOnlineFriends(), 60000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
-
-  //const { receiverId } = useParams();
   const queryClient = useQueryClient();
   const [newMessage, setNewMessage] = useState<ChatMessage["message"]>("");
   const {
@@ -65,7 +60,11 @@ const Chat = () => {
   } = useQuery(["chat"], () =>
     makeRequest.get(`/chats/${activeChat}`).then((res) => res.data)
   );
-  const { data: receiverProfile, refetch: refetchProfile } = useQuery(
+  const { data: receiverProfile, refetch: refetchProfile } = useQuery<
+    unknown,
+    unknown,
+    ReceiverType
+  >(
     ["user"],
     () =>
       activeChat !== null &&
@@ -75,7 +74,8 @@ const Chat = () => {
   );
 
   const chatMutate = useMutation(
-    (message) => makeRequest.post(`/chats/${activeChat}`, message),
+    (message: string) =>
+      makeRequest.post(`/chats/${activeChat}`, { message: newMessage }),
     {
       onSuccess: () => {
         setNewMessage("");
@@ -91,15 +91,16 @@ const Chat = () => {
     }
   }, [activeChat]);
 
-  const newMsgHanlder = (e) => {
-    const msg = e.target.value;
+  const newMsgHanlder = (e: React.FormEvent) => {
+    const target = e.target as HTMLInputElement;
+    const msg = target.value;
     setNewMessage(msg);
-    e.target.style.height = "inherit";
-    const height = e.target.scrollHeight;
+    target.style.height = "inherit";
+    const height = target.scrollHeight;
     if (height < 140) {
-      e.target.style.height = `${height}px`;
+      target.style.height = `${height}px`;
     } else {
-      e.target.style.height = `140px`;
+      target.style.height = `140px`;
     }
   };
   return (
@@ -125,7 +126,9 @@ const Chat = () => {
                   : "Befake user"}
               </h4>
               <span>
-                {"Available" && onlineFriends.includes(receiverProfile?.id)}
+                {receiverProfile
+                  ? "Available" && onlineFriends.includes(receiverProfile.id)
+                  : ""}
               </span>
             </div>
           </div>
@@ -155,7 +158,7 @@ const Chat = () => {
           <textarea value={newMessage} onChange={newMsgHanlder}></textarea>
           <button
             onClick={() => {
-              chatMutate.mutate({ message: newMessage });
+              chatMutate.mutate(newMessage);
               setNewMessage("");
             }}
           >
