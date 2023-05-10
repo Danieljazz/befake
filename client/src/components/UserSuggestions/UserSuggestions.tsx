@@ -1,4 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
+import { makeRequest } from "axiosRequest";
+
 const UserSuggestions = () => {
+  const { isError, isLoading, data } = useQuery(["recomendedUsers"], () =>
+    makeRequest.get("")
+  );
   return (
     <div className="section">
       <span>Suggestions for you</span>
