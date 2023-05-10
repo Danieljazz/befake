@@ -38,7 +38,7 @@ export const friendRequest = (req, res) => {
   jwt.verify(token, process.env.key, (err, userInfo) => {
     if (err) return res.status(401).json("wrong credentials");
     const q =
-      "SELECT r.*, name, surname, profilePhoto, u.id FROM relationships AS r LEFT JOIN users AS u ON( u.id = r.followingUserId ) WHERE followedUserId = ? AND followingUserId NOT IN (SELECT followedUserId FROM Relationships WHERE followingUserId=? )";
+      "SELECT r.*, name, surname, profilePhoto, u.id FROM relationships AS r LEFT JOIN users AS u ON( u.id = r.followingUserId ) WHERE followedUserId = ? AND followingUserId NOT IN (SELECT followedUserId FROM relationships WHERE followingUserId=? )";
     db.query(q, [userInfo.id, userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json(data);
