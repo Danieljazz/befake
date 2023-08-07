@@ -2,10 +2,10 @@ import { db } from "../connect.js";
 import cryptoJS from "crypto-js";
 import jwt from "jsonwebtoken";
 export const register = (req, res) => {
-  const q: string = "SELECT * FROM users WHERE username = ?";
-  db.query(q, [req.body.username], (err, data) => {
+  const q: string = "SELECT * FROM users WHERE username = ? OR mail = ?";
+  db.query(q, [req.body.username, req.body.mail], (err, data) => {
     if (err) return res.status(500).json(err);
-    if (data.length) return res.status(409).json("User already  exists");
+    if (data.length) return res.status(409).json("User already exists");
     const hashedPassword: string = cryptoJS.AES.encrypt(
       req.body.password,
       process.env.n5jYy70iY
