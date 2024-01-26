@@ -41,7 +41,7 @@ const Chat = () => {
       .get(`/relationships?userId=${user.id}`)
       .then((res) => setUserFriends(res.data));
     socket.emit("areMyFriendsOnline", userFriends);
-    socket.on("areMyFriendsOnlineResponse", (activeUsers) => {
+    socket.on("areMyFriendsOnlineResponse", (activeUsers: Number[]) => {
       setOnlineFriends(activeUsers);
     });
   }, []);
