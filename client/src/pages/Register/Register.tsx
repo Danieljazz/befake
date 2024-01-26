@@ -109,8 +109,8 @@ const Register: FC = () => {
         <div className="right">
           <h1>Find new friends!</h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nemo
-            labore illo?
+            By creating an account I consent to processing of my personal data
+            in accordance with the PRIVACY POLICY. I accept necessary cookies.
           </p>
           <span>Have account?</span>
           <Link to="/login">
